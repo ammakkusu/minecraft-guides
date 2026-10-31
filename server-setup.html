@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Подробный гайд по повышению FPS в Minecraft Java Edition: настройки графики, моды оптимизации и проверка производительности." name="description"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>Как создать сервер Minecraft — Minecraft Guides</title>
+<style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f7;
+      --surface: #ffffff;
+      --surface-soft: #f0f4f0;
+      --text: #202720;
+      --muted: #657066;
+      --border: #e1e7e1;
+      --accent: #258348;
+      --accent-dark: #176536;
+      --accent-soft: #e8f5eb;
+      --shadow: 0 8px 28px rgba(28, 49, 32, 0.055);
+      --radius: 16px;
+      --content: 900px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(37, 131, 72, 0.35);
+      outline-offset: 3px;
+    }
+
+    .site-header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .language-switch button {
+      min-width: 48px;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-switch button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--accent-dark);
+      box-shadow: 0 1px 4px rgba(28, 49, 32, 0.12);
+    }
+
+    .page {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      background: var(--accent-soft);
+      border: 1px solid #d6eadb;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 20px 0 16px;
+      font-size: clamp(2.15rem, 6vw, 3.65rem);
+      font-weight: 780;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+      font-weight: 740;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.12rem;
+      font-weight: 720;
+    }
+
+    p {
+      margin: 10px 0 14px;
+    }
+
+    .lead {
+      max-width: 740px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .intro-card,
+    .toc-card,
+    .content-card,
+    .note,
+    .warning,
+    .success {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 34px;
+      padding: 24px;
+    }
+
+    .intro-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toc-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .toc-heading {
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-dark);
+    }
+
+    .guide-section {
+      margin-top: 26px;
+      padding: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    .section-number {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .guide-section > p,
+    .guide-section li {
+      color: var(--muted);
+    }
+
+    .guide-section ul,
+    .guide-section ol {
+      margin: 12px 0 18px;
+      padding-left: 23px;
+    }
+
+    .guide-section li {
+      margin: 7px 0;
+      padding-left: 3px;
+    }
+
+    .setting-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .setting-item {
+      padding: 14px 15px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .setting-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .setting-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .note,
+    .warning,
+    .success {
+      margin: 18px 0;
+      padding: 17px 19px;
+      box-shadow: none;
+    }
+
+    .note {
+      background: #f3f7ff;
+      border-color: #dce7fa;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #f2e2c5;
+    }
+
+    .success {
+      background: var(--accent-soft);
+      border-color: #d6eadb;
+    }
+
+    .callout-title {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .note p,
+    .warning p,
+    .success p {
+      margin: 0;
+      color: #536052;
+      font-size: 14px;
+    }
+
+    .mod-card {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .mod-card h3 {
+      margin: 0 0 6px;
+    }
+
+    .mod-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .mod-link {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+
+    .step-index {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step p {
+      margin: 2px 0 0;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    details {
+      padding: 15px 17px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    summary {
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 15px;
+    }
+
+    .sources a {
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .final-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      padding: 12px 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .site-footer {
+      padding: 25px 20px 35px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner,
+      .page {
+        width: min(100% - 32px, var(--content));
+      }
+
+      .page {
+        padding-top: 38px;
+        padding-bottom: 56px;
+      }
+
+      .intro-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .guide-section {
+        padding: 23px 20px;
+      }
+
+      .toc-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .header-inner {
+        min-height: 68px;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .language-switch button {
+        min-width: 42px;
+        min-height: 36px;
+        padding: 6px 9px;
+      }
+
+      .page {
+        width: calc(100% - 28px);
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 10vw, 2.6rem);
+      }
+
+      .toc-list,
+      .setting-list,
+      .final-checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .guide-section {
+        padding: 21px 17px;
+        border-radius: 13px;
+      }
+
+      .meta-row {
+        gap: 8px 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="Minecraft Guides" class="brand" href="./index.html">Minecraft <span>Guides</span></a>
+<div aria-label="Language selection" class="language-switch" role="group">
+<button aria-pressed="true" id="ru-button" lang="ru" type="button">RU</button>
+<button aria-pressed="false" id="en-button" lang="en" type="button">EN</button>
+</div>
+</div>
+</header>
+<main class="page"><div id="ru-content" lang="ru"><div class="eyebrow">Minecraft Java Edition · Серверы</div><h1>Как создать и настроить сервер Minecraft</h1><p class="lead">Подробное практическое руководство по созданию собственного сервера Minecraft Java Edition. Разберём установку серверного ПО и Java, первый запуск, основные настройки, доступ для друзей, безопасность, моды, плагины и резервные копии.</p><div class="meta-row"><span><i class="dot"></i>Для Minecraft Java Edition</span><span><i class="dot"></i>Для начинающих</span><span><i class="dot"></i>Windows и базовая настройка сервера</span></div><div class="intro-card"><div><h2>Что ты узнаешь</h2><p>Как выбрать Vanilla, Paper или модифицированный сервер, запустить его, настроить мир и безопасно подключить друзей.</p></div><div><h2>Что понадобится</h2><p>Компьютер или хостинг, совместимая Java, серверные файлы и доступ к папке сервера. Для домашнего доступа из интернета может понадобиться настройка сети.</p></div></div><nav class="toc-card" aria-label="Содержание гайда"><div class="toc-heading">Содержание</div><ol class="toc-list"><li><a href="#ru-server-basics">1. Что понадобится для своего сервера</a></li><li><a href="#ru-software">2. Выбери тип серверного ПО</a></li><li><a href="#ru-java">3. Установи подходящую Java</a></li><li><a href="#ru-download">4. Скачай серверные файлы</a></li><li><a href="#ru-first-run">5. Первый запуск и EULA</a></li><li><a href="#ru-start-script">6. Сделай удобный файл запуска</a></li><li><a href="#ru-properties">7. Настрой server.properties</a></li><li><a href="#ru-access">8. Whitelist, операторы, моды и плагины</a></li><li><a href="#ru-connect">9. Подключи друзей</a></li><li><a href="#ru-backups">10. Резервные копии и обновления</a></li><li><a href="#ru-troubleshooting">11. Решение частых проблем</a></li></ol></nav><section class="guide-section" id="ru-server-basics"><span class="section-number">РАЗДЕЛ 01</span><h2>Что понадобится для своего сервера</h2>
+<p>Сервер Minecraft Java Edition — отдельная программа, которая запускает мир и обрабатывает действия игроков. Твой компьютер или арендованный хостинг должен оставаться включённым, пока друзья играют на домашнем сервере.</p>
+<p>Перед началом подготовь:</p>
+<ul><li><strong>Компьютер или хостинг.</strong> Чем больше игроков, модов и построек, тем выше требования к процессору, памяти и стабильности системы.</li><li><strong>Подходящую Java.</strong> Её версия должна соответствовать выбранной версии Minecraft и серверного ПО.</li><li><strong>Папку сервера.</strong> Храни файлы сервера отдельно от папки клиента Minecraft.</li><li><strong>Доступ администратора.</strong> Для установки Java и изменения правил брандмауэра могут понадобиться права администратора.</li><li><strong>Резервные копии.</strong> Создай место для копии мира до установки модов, плагинов и обновлений.</li></ul>
+<div class="note"><span class="callout-title">Локальный сервер или хостинг?</span><p>Домашний сервер подходит для игры небольшой компании, когда компьютер можно оставлять включённым. Хостинг удобнее, если сервер должен работать постоянно или домашнее подключение не позволяет друзьям подключаться извне.</p></div>
+</section><section class="guide-section" id="ru-software"><span class="section-number">РАЗДЕЛ 02</span><h2>Выбери тип серверного ПО</h2>
+<p>Сначала реши, какой сервер ты хочешь. Клиентские моды и серверные плагины — не одно и то же, а разные загрузчики не являются взаимозаменяемыми.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Vanilla</strong><span>Официальный сервер без сторонних модификаций. Подходит для классического выживания и простого старта.</span></div>
+<div class="setting-item"><strong>Paper</strong><span>Сервер на основе Bukkit/Spigot с поддержкой плагинов и дополнительными настройками. Часто выбирают для серверов с плагинами и оптимизацией.</span></div>
+<div class="setting-item"><strong>Fabric</strong><span>Загрузчик модов. Подходит для серверных модов и сборок, где важны лёгкость и гибкость. Проверяй, нужен ли каждому моду сервер, клиент или обе стороны.</span></div>
+<div class="setting-item"><strong>Forge / NeoForge</strong><span>Загрузчики для модифицированных серверов. Используй подходящий установщик и одинаковые версии игры, загрузчика и требуемых модов.</span></div>
+</div>
+<div class="warning"><span class="callout-title">Не смешивай несовместимые файлы</span><p>Плагины Paper не устанавливаются как обычные Forge-моды. Не загружай случайный JAR в папку mods или plugins: сначала проверь документацию выбранной платформы и совместимость файла.</p></div>
+</section><section class="guide-section" id="ru-java"><span class="section-number">РАЗДЕЛ 03</span><h2>Установи подходящую Java</h2>
+<p>Серверный файл <strong>.jar</strong> запускается через Java. Важно установить не просто «самую новую Java», а версию, которую требует именно твоя версия Minecraft и выбранный серверный проект.</p>
+<ol><li>Открой документацию или страницу загрузки выбранного серверного ПО.</li><li>Найди требование к версии Java для своей версии игры.</li><li>Установи 64-битную Java подходящей версии из надёжного источника.</li><li>Открой командную строку и проверь установку командой <code>java -version</code>.</li></ol>
+<div class="note"><span class="callout-title">Версия Java зависит от версии игры</span><p>Например, актуальная таблица Paper указывает Java 21 для Paper 1.20–1.21.11 и Java 25 для 26.1+. Для другой версии ориентируйся на её собственные требования, а не копируй номер из этого примера.</p></div>
+<p>Если команда <code>java</code> не найдена, Java может быть не установлена или не добавлена в PATH. Открой новое окно терминала после установки и проверь команду ещё раз.</p>
+</section><section class="guide-section" id="ru-download"><span class="section-number">РАЗДЕЛ 04</span><h2>Скачай серверные файлы</h2>
+<p>Создай отдельную папку, например <code>Minecraft-Server</code>. Не запускай сервер прямо из папки «Загрузки» и не смешивай его файлы с игровыми мирами клиента.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Для Vanilla открой официальный сайт Minecraft и скачай серверный файл для нужной версии Java Edition.</p></div>
+<div class="step"><span class="step-index">2</span><p>Для Paper используй официальный раздел загрузки PaperMC и выбери сборку, соответствующую версии Minecraft.</p></div>
+<div class="step"><span class="step-index">3</span><p>Для Fabric, Forge или NeoForge используй официальный сайт соответствующего загрузчика и следуй его инструкции по установке сервера.</p></div>
+<div class="step"><span class="step-index">4</span><p>Перемести серверный JAR или созданные установщиком файлы в папку сервера. При необходимости переименуй JAR в простое имя, например <code>server.jar</code> или <code>paper.jar</code>.</p></div>
+</div>
+<div class="sources"><a href="https://www.minecraft.net/en-us/download/server" target="_blank" rel="noopener noreferrer">Официальный сервер Minecraft ↗</a><a href="https://docs.papermc.io/paper/getting-started/" target="_blank" rel="noopener noreferrer">Документация PaperMC ↗</a><a href="https://fabricmc.net/use/server/" target="_blank" rel="noopener noreferrer">Установка Fabric Server ↗</a><a href="https://files.minecraftforge.net/" target="_blank" rel="noopener noreferrer">Официальный Forge ↗</a><a href="https://neoforged.net/" target="_blank" rel="noopener noreferrer">NeoForged ↗</a></div>
+</section><section class="guide-section" id="ru-first-run"><span class="section-number">РАЗДЕЛ 05</span><h2>Первый запуск и EULA</h2>
+<p>Первый запуск создаёт конфигурационные файлы и папку мира. На этом этапе сервер может сразу завершить работу — для Vanilla это ожидаемо, если нужно сначала ознакомиться с лицензионным соглашением.</p>
+<ol><li>Открой папку сервера.</li><li>Запусти JAR через терминал или временный файл запуска. Для Vanilla команда обычно выглядит как <code>java -jar server.jar nogui</code> (замени имя файла на своё).</li><li>После первого запуска найди файл <code>eula.txt</code>.</li><li>Открой ссылку на Minecraft EULA внутри файла или на официальном сайте и прочитай условия.</li><li>Только если ты согласен с соглашением, измени <code>eula=false</code> на <code>eula=true</code> и сохрани файл.</li><li>Запусти сервер ещё раз.</li></ol>
+<div class="warning"><span class="callout-title">Не ставь eula=true автоматически</span><p>Изменение значения означает согласие с лицензионным соглашением. Сделай это только после того, как прочитал условия и согласен с ними.</p></div>
+<p>При успешном запуске в окне консоли появится сообщение о готовности сервера, обычно с текстом <code>Done</code>. Не закрывай это окно, пока сервер работает.</p>
+</section><section class="guide-section" id="ru-start-script"><span class="section-number">РАЗДЕЛ 06</span><h2>Сделай удобный файл запуска</h2>
+<p>Чтобы каждый раз не вводить команду вручную, создай в папке сервера файл запуска. На Windows это может быть <code>start.bat</code>, на Linux — <code>start.sh</code>. Укажи точное имя своего JAR-файла.</p>
+<h3>Пример для Windows (Vanilla)</h3>
+<pre><code>@echo off
+java -Xms2G -Xmx4G -jar server.jar nogui
+pause</code></pre>
+<h3>Пример для Paper</h3>
+<pre><code>@echo off
+java -Xms2G -Xmx4G -jar paper.jar --nogui
+pause</code></pre>
+<p>Сохрани файл с расширением <code>.bat</code>, а не <code>.txt</code>. Двойной щелчок по нему запустит сервер. Команда <code>pause</code> оставляет окно открытым, чтобы можно было прочитать сообщение об ошибке.</p>
+<h3>Что означают параметры памяти?</h3>
+<ul><li><code>-Xms2G</code> — начальный объём памяти для Java.</li><li><code>-Xmx4G</code> — максимальный объём памяти, который Java сможет использовать.</li><li><code>nogui</code> или <code>--nogui</code> — запуск без графического окна, если это поддерживает выбранный сервер.</li></ul>
+<div class="note"><span class="callout-title">Не выделяй всю оперативную память</span><p>Числа 2G и 4G — только пример команды, а не универсальная рекомендация. Оставь память для Windows, Minecraft-клиента и других программ. Требования зависят от количества игроков, модов, плагинов и размера мира. Если не уверен, начни с умеренного значения и следи за использованием памяти.</p></div>
+</section><section class="guide-section" id="ru-properties"><span class="section-number">РАЗДЕЛ 07</span><h2>Настрой server.properties</h2>
+<p>После первого запуска в папке появится <code>server.properties</code>. Останови сервер командой <code>stop</code> перед редактированием файла, затем открой его обычным текстовым редактором. После изменений сохрани файл и запусти сервер снова.</p>
+<h3>Полезные основные параметры</h3>
+<div class="setting-list">
+<div class="setting-item"><strong><code>gamemode=survival</code></strong><span>Режим игры по умолчанию: survival, creative, adventure или spectator.</span></div>
+<div class="setting-item"><strong><code>difficulty=normal</code></strong><span>Сложность: peaceful, easy, normal или hard.</span></div>
+<div class="setting-item"><strong><code>max-players=10</code></strong><span>Максимальное число одновременных игроков. Выбирай значение по возможностям сервера.</span></div>
+<div class="setting-item"><strong><code>motd=My Minecraft Server</code></strong><span>Сообщение, которое отображается в списке серверов у игроков.</span></div>
+<div class="setting-item"><strong><code>server-port=25565</code></strong><span>Сетевой порт сервера Java Edition по умолчанию. Меняй его только при необходимости и согласованно настрой сеть.</span></div>
+<div class="setting-item"><strong><code>server-ip=</code></strong><span>Обычно оставь значение пустым. Не вписывай сюда публичный IP или случайный адрес — неверное значение может помешать запуску.</span></div>
+<div class="setting-item"><strong><code>online-mode=true</code></strong><span>Оставь включённым для обычного сервера с проверкой учётных записей. Не отключай ради обхода проверки: это ослабляет защиту и допускает подмену имён.</span></div>
+<div class="setting-item"><strong><code>white-list=true</code></strong><span>Включает список разрешённых игроков. Добавляй туда только тех, кому действительно нужен доступ.</span></div>
+<div class="setting-item"><strong><code>view-distance=8</code></strong><span>Пример расстояния прорисовки на сервере. Снижение может уменьшить нагрузку, но меняет видимую дальность.</span></div>
+<div class="setting-item"><strong><code>simulation-distance=6</code></strong><span>Пример расстояния симуляции. Влияет на область, где сервер обновляет игровой мир.</span></div>
+</div>
+<p>Не все параметры доступны или работают одинаково во всех серверных сборках. Если параметра нет в файле, проверь документацию своей платформы. Меняй по одному-два значения и проверяй результат.</p>
+</section><section class="guide-section" id="ru-access"><span class="section-number">РАЗДЕЛ 08</span><h2>Whitelist, операторы, моды и плагины</h2>
+<h3>Разреши вход только знакомым</h3>
+<p>В консоли сервера можно использовать команды:</p>
+<pre><code>whitelist on
+whitelist add ИмяИгрока
+whitelist list</code></pre>
+<p>Чтобы убрать игрока из списка, выполни <code>whitelist remove ИмяИгрока</code>. Имя вводится без пробелов и должно соответствовать имени игрока.</p>
+<h3>Выдавай права оператора осторожно</h3>
+<pre><code>op ИмяИгрока
+deop ИмяИгрока</code></pre>
+<p>Оператор (OP) получает широкие административные возможности. Не выдавай OP всем друзьям: обычно достаточно whitelist, а повышенные права нужны только доверенным администраторам.</p>
+<h3>Моды и плагины</h3>
+<ul><li><strong>Vanilla:</strong> не поддерживает Bukkit-плагины и Forge/Fabric-моды без отдельного серверного ПО.</li><li><strong>Paper:</strong> использует папку <code>plugins</code>. Скачивай плагины с официальной страницы проекта и проверяй их версию.</li><li><strong>Fabric / Forge / NeoForge:</strong> серверные моды размещаются по инструкции загрузчика, часто в папке <code>mods</code>. Некоторым модам требуется установка и на стороне клиента.</li></ul>
+<div class="warning"><span class="callout-title">Совместимость важнее количества дополнений</span><p>У всех игроков должны совпадать версия Minecraft и необходимые версии загрузчика/модов. Перед установкой нового плагина или мода останови сервер и сделай резервную копию.</p></div>
+</section><section class="guide-section" id="ru-connect"><span class="section-number">РАЗДЕЛ 09</span><h2>Подключи друзей</h2>
+<h3>Сначала проверь сервер на своём компьютере</h3>
+<p>Когда сервер запущен на том же компьютере, открой Minecraft Java Edition той же версии и подключись к адресу <code>localhost</code>. Если это работает, серверная программа запущена локально.</p>
+<h3>Подключение в одной домашней сети</h3>
+<ol><li>На компьютере-хосте открой командную строку и введи <code>ipconfig</code>.</li><li>Найди IPv4-адрес активного сетевого адаптера, например <code>192.168.1.25</code>.</li><li>Другой игрок в той же сети вводит этот локальный адрес в поле адреса сервера.</li></ol>
+<h3>Подключение друзей через интернет</h3>
+<p>Для прямого подключения извне обычно требуются правило брандмауэра и настройка переадресации TCP-порта сервера (по умолчанию 25565) на локальный адрес компьютера-хоста. Точные меню зависят от модели роутера и провайдера.</p>
+<ol><li>Убедись, что сервер стабильно запускается и локально доступен.</li><li>Разреши серверному приложению входящие подключения в брандмауэре. Не отключай брандмауэр целиком.</li><li>С настройкой роутера попроси помочь владельца домашней сети или взрослого, который отвечает за роутер.</li><li>Передавай адрес подключения только людям, которых ты знаешь и которым доверяешь.</li></ol>
+<div class="warning"><span class="callout-title">Не публикуй домашний IP открыто</span><p>Публичный IP может раскрывать информацию о твоём интернет-подключении. Не размещай его в открытых чатах и на сайтах. Не настраивай переадресацию портов без понимания последствий. Если провайдер использует CGNAT, обычная переадресация может не работать — уточни доступные варианты у провайдера или выбери хостинг/частное решение для подключения.</p></div>
+</section><section class="guide-section" id="ru-backups"><span class="section-number">РАЗДЕЛ 10</span><h2>Резервные копии и обновления</h2>
+<p>Мир — самая ценная часть сервера. Ошибка при обновлении, несовместимый плагин или повреждение файлов могут привести к потере прогресса. Делай резервную копию до любых крупных изменений.</p>
+<div class="steps"><div class="step"><span class="step-index">1</span><p>В консоли сервера выполни <code>save-all</code>, чтобы сохранить изменения мира.</p></div><div class="step"><span class="step-index">2</span><p>Заверши работу командой <code>stop</code>. Дождись полного закрытия сервера.</p></div><div class="step"><span class="step-index">3</span><p>Скопируй всю папку сервера в другое место или на отдельный носитель. Не храни единственную копию рядом с оригиналом.</p></div><div class="step"><span class="step-index">4</span><p>Обновляй сервер, Java, моды и плагины по одному компоненту. После каждого изменения запускай тест и проверяй консоль.</p></div></div>
+<p>Для обновления версии Minecraft заранее проверь совместимость плагинов, модов и загрузчика. Не открывай единственную копию мира новой версией, пока не создал резервную копию: иногда обратное открытие старого мира невозможно или небезопасно.</p>
+<div class="note"><span class="callout-title">Перед остановкой используй команду stop</span><p>Не закрывай окно сервера крестиком и не выключай компьютер во время сохранения мира. Штатная команда <code>stop</code> позволяет серверу завершить работу корректно.</p></div>
+</section><section class="guide-section" id="ru-troubleshooting"><span class="section-number">РАЗДЕЛ 11</span><h2>Решение частых проблем</h2>
+<div class="faq-list">
+<details><summary>Сервер пишет, что нужно принять EULA</summary><p>Открой <code>eula.txt</code>, прочитай соглашение и, только если согласен, замени <code>eula=false</code> на <code>eula=true</code>. Сохрани файл и запусти сервер снова.</p></details>
+<details><summary>Появляется ошибка UnsupportedClassVersionError</summary><p>Чаще всего запущена неподходящая версия Java. Сверь требование к Java для конкретной версии сервера, установи её и проверь команду <code>java -version</code>.</p></details>
+<details><summary>Пишет Failed to bind to port</summary><p>Порт может уже использоваться другой программой или адрес в <code>server-ip</code> указан неправильно. Для обычной домашней настройки оставь <code>server-ip=</code> пустым и проверь, не запущен ли второй экземпляр сервера.</p></details>
+<details><summary>Друзья видят Connection timed out или Connection refused</summary><p>Проверь, что сервер запущен, версия клиента совпадает, адрес и порт введены правильно, а брандмауэр разрешает подключение. Для доступа извне также проверь настройки роутера и ограничения провайдера.</p></details>
+<details><summary>Сервер запускается, но сильно лагает</summary><p>Проверь нагрузку на процессор и память, количество игроков, сущностей, модов и плагинов. Попробуй постепенно уменьшить view-distance и simulation-distance, а также изучи сообщения консоли. Высокий ping у игрока и низкий TPS сервера — разные проблемы.</p></details>
+<details><summary>После установки мода сервер не запускается</summary><p>Останови сервер, убери последний добавленный файл и проверь журнал ошибки. Сверь версию Minecraft, загрузчик, Java, зависимости и совместимость каждого мода. Восстанови резервную копию, если это необходимо.</p></details>
+</div>
+</section><section class="guide-section"><span class="section-number">ИТОГ</span><h2>Краткий чек-лист перед запуском</h2><p>Проверь эти пункты, прежде чем приглашать друзей на сервер.</p><div class="final-checklist"><div class="check-item">✓ Выбран подходящий тип сервера: Vanilla, Paper, Fabric, Forge или NeoForge</div><div class="check-item">✓ Установлена совместимая версия Java</div><div class="check-item">✓ Серверные файлы находятся в отдельной папке</div><div class="check-item">✓ EULA прочитано и принято осознанно</div><div class="check-item">✓ Сервер успешно запускается и принимает localhost</div><div class="check-item">✓ server.properties настроен и server-ip оставлен пустым, если нет особой причины менять его</div><div class="check-item">✓ Включён whitelist и OP выдан только доверенным людям</div><div class="check-item">✓ Создана резервная копия мира и файлов</div><div class="check-item">✓ Сетевые настройки меняются осторожно, без отключения брандмауэра</div></div><div class="success"><span class="callout-title">Главный совет</span><p>Начни с простого сервера, проверь его локально, настрой доступ и только потом добавляй плагины, моды и дополнительные функции. Создавай резервную копию перед каждым крупным обновлением.</p></div><h3>Официальные ресурсы</h3><div class="sources"><a href="https://www.minecraft.net/en-us/download/server" target="_blank" rel="noopener noreferrer">Minecraft Server Download ↗</a><a href="https://www.minecraft.net/en-us/eula" target="_blank" rel="noopener noreferrer">Minecraft EULA ↗</a><a href="https://docs.papermc.io/paper/getting-started/" target="_blank" rel="noopener noreferrer">PaperMC Docs ↗</a><a href="https://fabricmc.net/use/server/" target="_blank" rel="noopener noreferrer">Fabric Server ↗</a><a href="https://docs.neoforged.net/" target="_blank" rel="noopener noreferrer">NeoForge Docs ↗</a></div></section></div><div hidden id="en-content" lang="en"><div class="eyebrow">Minecraft Java Edition · Servers</div><h1>How to Set Up a Minecraft Server</h1><p class="lead">A practical, detailed guide to creating your own Minecraft Java Edition server. Learn how to install server software and Java, launch the server, configure core settings, invite friends, manage security, install mods and plugins, and create backups.</p><div class="meta-row"><span><i class="dot"></i>For Minecraft Java Edition</span><span><i class="dot"></i>Beginner-friendly</span><span><i class="dot"></i>Windows and basic server setup</span></div><div class="intro-card"><div><h2>What you will learn</h2><p>How to choose Vanilla, Paper or a modded server, launch it, configure the world and safely let friends join.</p></div><div><h2>What you need</h2><p>A computer or hosting plan, compatible Java, server files and access to the server folder. Home internet access may require network configuration.</p></div></div><nav class="toc-card" aria-label="Guide contents"><div class="toc-heading">Contents</div><ol class="toc-list"><li><a href="#en-server-basics">1. What you need for your own server</a></li><li><a href="#en-software">2. Choose your server software</a></li><li><a href="#en-java">3. Install the right Java version</a></li><li><a href="#en-download">4. Download the server files</a></li><li><a href="#en-first-run">5. First launch and the EULA</a></li><li><a href="#en-start-script">6. Create a convenient start script</a></li><li><a href="#en-properties">7. Configure server.properties</a></li><li><a href="#en-access">8. Whitelist, operators, mods and plugins</a></li><li><a href="#en-connect">9. Invite your friends</a></li><li><a href="#en-backups">10. Backups and updates</a></li><li><a href="#en-troubleshooting">11. Fix common problems</a></li></ol></nav><section class="guide-section" id="en-server-basics"><span class="section-number">SECTION 01</span><h2>What you need for your own server</h2>
+<p>A Minecraft Java Edition server is a separate program that runs the world and processes player actions. Your computer or rented host must stay online while friends are playing on a home-hosted server.</p><p>Before you begin, prepare:</p><ul><li><strong>A computer or hosting plan.</strong> More players, mods, plugins and builds generally require more CPU, memory and system stability.</li><li><strong>A compatible Java version.</strong> It must match the Minecraft version and server software you choose.</li><li><strong>A server folder.</strong> Keep server files separate from your Minecraft client folders.</li><li><strong>Administrator access.</strong> Installing Java or changing firewall rules may require administrator permission.</li><li><strong>Backups.</strong> Make a safe copy of your world before installing mods, plugins or updates.</li></ul><div class="note"><span class="callout-title">Home server or hosting?</span><p>A home server can work well for a small group when the computer can stay on. Hosting is more convenient when the server must run around the clock or your home connection does not allow outside connections.</p></div>
+</section><section class="guide-section" id="en-software"><span class="section-number">SECTION 02</span><h2>Choose your server software</h2>
+<p>First decide what kind of server you want. Client mods and server plugins are not the same thing, and different mod loaders are not interchangeable.</p><div class="setting-list"><div class="setting-item"><strong>Vanilla</strong><span>The official server without third-party modifications. A good choice for classic survival and a simple start.</span></div><div class="setting-item"><strong>Paper</strong><span>A Bukkit/Spigot-based server with plugin support and additional configuration. Commonly used for plugin-based servers.</span></div><div class="setting-item"><strong>Fabric</strong><span>A mod loader for server mods and modpacks where flexibility is important. Check whether each mod is required on the server, client, or both.</span></div><div class="setting-item"><strong>Forge / NeoForge</strong><span>Mod loaders for modded servers. Use the appropriate installer and match the game, loader and required mod versions.</span></div></div><div class="warning"><span class="callout-title">Do not mix incompatible files</span><p>Paper plugins are not installed as regular Forge mods. Do not drop a random JAR into the mods or plugins folder: check the platform documentation and the file's compatibility first.</p></div>
+</section><section class="guide-section" id="en-java"><span class="section-number">SECTION 03</span><h2>Install the right Java version</h2>
+<p>The server <strong>.jar</strong> file runs through Java. You do not always need the newest Java release; you need the version required by your exact Minecraft version and server project.</p><ol><li>Open the documentation or download page for your server software.</li><li>Find the Java requirement for your Minecraft version.</li><li>Install a compatible 64-bit Java build from a trusted source.</li><li>Open a terminal or Command Prompt and run <code>java -version</code> to verify the installation.</li></ol><div class="note"><span class="callout-title">Java requirements depend on the game version</span><p>For example, the current Paper version table lists Java 21 for Paper 1.20–1.21.11 and Java 25 for 26.1+. For other versions, follow their own requirements rather than copying a version number from this example.</p></div><p>If the <code>java</code> command is not found, Java may be missing or not added to PATH. Open a new terminal window after installing it and try again.</p>
+</section><section class="guide-section" id="en-download"><span class="section-number">SECTION 04</span><h2>Download the server files</h2>
+<p>Create a separate folder, for example <code>Minecraft-Server</code>. Do not run the server from your Downloads folder or mix its files with your client worlds.</p><div class="steps"><div class="step"><span class="step-index">1</span><p>For Vanilla, open the official Minecraft website and download the Java Edition server file for your chosen version.</p></div><div class="step"><span class="step-index">2</span><p>For Paper, use the official PaperMC downloads and select a build that matches your Minecraft version.</p></div><div class="step"><span class="step-index">3</span><p>For Fabric, Forge or NeoForge, use the loader's official website and follow its server installation instructions.</p></div><div class="step"><span class="step-index">4</span><p>Move the server JAR or installer-created files into the server folder. Rename the JAR to a simple name such as <code>server.jar</code> or <code>paper.jar</code> if needed.</p></div></div><div class="sources"><a href="https://www.minecraft.net/en-us/download/server" target="_blank" rel="noopener noreferrer">Official Minecraft Server ↗</a><a href="https://docs.papermc.io/paper/getting-started/" target="_blank" rel="noopener noreferrer">PaperMC Documentation ↗</a><a href="https://fabricmc.net/use/server/" target="_blank" rel="noopener noreferrer">Fabric Server Install ↗</a><a href="https://files.minecraftforge.net/" target="_blank" rel="noopener noreferrer">Official Forge ↗</a><a href="https://neoforged.net/" target="_blank" rel="noopener noreferrer">NeoForged ↗</a></div>
+</section><section class="guide-section" id="en-first-run"><span class="section-number">SECTION 05</span><h2>First launch and the EULA</h2>
+<p>The first launch creates configuration files and the world folder. The server may exit immediately at this stage; for Vanilla, this is expected when you still need to read and accept the license agreement.</p><ol><li>Open the server folder.</li><li>Run the JAR through a terminal or a temporary start script. A Vanilla command usually looks like <code>java -jar server.jar nogui</code> (replace the filename with yours).</li><li>After the first launch, find <code>eula.txt</code>.</li><li>Open the Minecraft EULA link in the file or on the official website and read the terms.</li><li>Only if you agree, change <code>eula=false</code> to <code>eula=true</code> and save the file.</li><li>Start the server again.</li></ol><div class="warning"><span class="callout-title">Do not set eula=true automatically</span><p>Changing this value means you agree to the license. Do so only after reading the terms and deciding that you agree.</p></div><p>When the server starts successfully, the console will show a ready message, usually containing <code>Done</code>. Keep this window open while the server is running.</p>
+</section><section class="guide-section" id="en-start-script"><span class="section-number">SECTION 06</span><h2>Create a convenient start script</h2>
+<p>To avoid typing the command every time, create a start file in your server folder. On Windows, this can be <code>start.bat</code>; on Linux, <code>start.sh</code>. Use the exact name of your JAR file.</p><h3>Windows example (Vanilla)</h3><pre><code>@echo off
+java -Xms2G -Xmx4G -jar server.jar nogui
+pause</code></pre><h3>Paper example</h3><pre><code>@echo off
+java -Xms2G -Xmx4G -jar paper.jar --nogui
+pause</code></pre><p>Save the file with a <code>.bat</code> extension, not <code>.txt</code>. Double-clicking it will start the server. The <code>pause</code> command keeps the window open so you can read any error message.</p><h3>What do the memory options mean?</h3><ul><li><code>-Xms2G</code> — the initial Java memory allocation.</li><li><code>-Xmx4G</code> — the maximum memory Java can use.</li><li><code>nogui</code> or <code>--nogui</code> — starts without the graphical window, when supported by the selected server.</li></ul><div class="note"><span class="callout-title">Do not allocate all available RAM</span><p>2G and 4G are example values, not universal recommendations. Leave memory for Windows, the Minecraft client and other programs. Requirements depend on players, mods, plugins and world size. Start with a moderate value and monitor memory usage.</p></div>
+</section><section class="guide-section" id="en-properties"><span class="section-number">SECTION 07</span><h2>Configure server.properties</h2>
+<p>After the first launch, a <code>server.properties</code> file will appear in the server folder. Stop the server with the <code>stop</code> command before editing it, then open the file in a text editor. Save your changes and start the server again.</p><h3>Useful core settings</h3><div class="setting-list"><div class="setting-item"><strong><code>gamemode=survival</code></strong><span>Default game mode: survival, creative, adventure or spectator.</span></div><div class="setting-item"><strong><code>difficulty=normal</code></strong><span>Difficulty: peaceful, easy, normal or hard.</span></div><div class="setting-item"><strong><code>max-players=10</code></strong><span>Maximum number of concurrent players. Choose a value your server can handle.</span></div><div class="setting-item"><strong><code>motd=My Minecraft Server</code></strong><span>The message shown in the server list.</span></div><div class="setting-item"><strong><code>server-port=25565</code></strong><span>The default Java Edition server network port. Change it only when needed and configure your network accordingly.</span></div><div class="setting-item"><strong><code>server-ip=</code></strong><span>Usually leave this blank. Do not enter a public IP or a random address; an incorrect value can prevent the server from starting.</span></div><div class="setting-item"><strong><code>online-mode=true</code></strong><span>Keep enabled for normal account authentication. Do not disable it to bypass verification: this weakens security and allows name spoofing.</span></div><div class="setting-item"><strong><code>white-list=true</code></strong><span>Enables the player allowlist. Add only people who should have access.</span></div><div class="setting-item"><strong><code>view-distance=8</code></strong><span>An example server view distance. Lowering it may reduce load but also changes how far players can see.</span></div><div class="setting-item"><strong><code>simulation-distance=6</code></strong><span>An example simulation distance. It affects the area in which the server updates the world.</span></div></div><p>Not every option is available or behaves the same way on all server builds. If a setting is missing, check the documentation for your platform. Change one or two values at a time and test the result.</p>
+</section><section class="guide-section" id="en-access"><span class="section-number">SECTION 08</span><h2>Whitelist, operators, mods and plugins</h2>
+<h3>Allow only people you trust</h3><p>Use these commands in the server console:</p><pre><code>whitelist on
+whitelist add PlayerName
+whitelist list</code></pre><p>To remove a player, run <code>whitelist remove PlayerName</code>. Enter the player's exact in-game name.</p><h3>Assign operator permissions carefully</h3><pre><code>op PlayerName
+deop PlayerName</code></pre><p>An operator (OP) has broad administrative permissions. Do not give OP to everyone; a whitelist is usually enough for ordinary players.</p><h3>Mods and plugins</h3><ul><li><strong>Vanilla:</strong> does not support Bukkit plugins or Forge/Fabric mods without different server software.</li><li><strong>Paper:</strong> uses the <code>plugins</code> folder. Download plugins from the project's official page and check version compatibility.</li><li><strong>Fabric / Forge / NeoForge:</strong> server mods are placed according to the loader's instructions, often in a <code>mods</code> folder. Some mods must also be installed on the client.</li></ul><div class="warning"><span class="callout-title">Compatibility matters more than quantity</span><p>All players need matching Minecraft versions and the required loader/mod versions. Stop the server and make a backup before installing a new plugin or mod.</p></div>
+</section><section class="guide-section" id="en-connect"><span class="section-number">SECTION 09</span><h2>Invite your friends</h2>
+<h3>Test the server on your own computer first</h3><p>When the server runs on the same computer, open Minecraft Java Edition using the same version and connect to <code>localhost</code>. If this works, the server is running locally.</p><h3>Connecting on the same home network</h3><ol><li>On the host computer, open Command Prompt and run <code>ipconfig</code>.</li><li>Find the IPv4 address of the active network adapter, for example <code>192.168.1.25</code>.</li><li>Another player on the same network enters this local address in the server address field.</li></ol><h3>Letting friends connect over the internet</h3><p>Direct outside connections usually require a firewall rule and TCP port forwarding for the server (25565 by default) to the host computer's local address. Exact router menus vary by model and ISP.</p><ol><li>Make sure the server starts reliably and works locally.</li><li>Allow the server application through the firewall. Do not disable the firewall entirely.</li><li>Ask the home network owner or the adult responsible for the router to help with router configuration.</li><li>Share the connection address only with people you know and trust.</li></ol><div class="warning"><span class="callout-title">Do not post your home IP publicly</span><p>Your public IP can reveal information about your internet connection. Do not post it in public chats or websites. Do not configure port forwarding without understanding the implications. If your ISP uses CGNAT, ordinary port forwarding may not work; ask your provider about options or consider hosting/a private connection solution.</p></div>
+</section><section class="guide-section" id="en-backups"><span class="section-number">SECTION 10</span><h2>Backups and updates</h2>
+<p>Your world is the most valuable part of the server. An update error, incompatible plugin or damaged file can cause progress to be lost. Make a backup before major changes.</p><div class="steps"><div class="step"><span class="step-index">1</span><p>Run <code>save-all</code> in the server console to save the world.</p></div><div class="step"><span class="step-index">2</span><p>Shut down with <code>stop</code>. Wait until the server has fully closed.</p></div><div class="step"><span class="step-index">3</span><p>Copy the entire server folder to another location or a separate drive. Do not keep the only backup beside the original.</p></div><div class="step"><span class="step-index">4</span><p>Update the server, Java, mods and plugins one component at a time. Test the launch and check the console after each change.</p></div></div><p>Before updating Minecraft, check plugin, mod and loader compatibility. Do not open your only copy of a world in a new version before backing it up; reverting an upgraded world may be impossible or unsafe.</p><div class="note"><span class="callout-title">Use the stop command before closing</span><p>Do not close the server window or shut down the computer while the world is saving. The <code>stop</code> command lets the server shut down cleanly.</p></div>
+</section><section class="guide-section" id="en-troubleshooting"><span class="section-number">SECTION 11</span><h2>Fix common problems</h2>
+<div class="faq-list"><details><summary>The server says I need to accept the EULA</summary><p>Open <code>eula.txt</code>, read the agreement and, only if you agree, change <code>eula=false</code> to <code>eula=true</code>. Save the file and start the server again.</p></details><details><summary>UnsupportedClassVersionError appears</summary><p>The Java version is often incompatible. Check the Java requirement for your exact server version, install it and verify with <code>java -version</code>.</p></details><details><summary>Failed to bind to port appears</summary><p>The port may already be in use, or <code>server-ip</code> may be incorrect. For a normal home setup, leave <code>server-ip=</code> blank and check whether another server instance is running.</p></details><details><summary>Friends get Connection timed out or Connection refused</summary><p>Check that the server is running, the client version matches, the address and port are correct, and the firewall allows the connection. Outside access also depends on router settings and ISP restrictions.</p></details><details><summary>The server starts but lags badly</summary><p>Check CPU and memory usage, player count, entities, mods and plugins. Try lowering view-distance and simulation-distance gradually and review console messages. A player's high ping and low server TPS are different issues.</p></details><details><summary>The server stops after I install a mod</summary><p>Stop the server, remove the last added file and inspect the error log. Check Minecraft, loader and Java versions, dependencies and mod compatibility. Restore your backup if needed.</p></details></div>
+</section><section class="guide-section"><span class="section-number">SUMMARY</span><h2>Quick setup checklist</h2><p>Check these items before inviting friends to your server.</p><div class="final-checklist"><div class="check-item">✓ Chosen the right server type: Vanilla, Paper, Fabric, Forge or NeoForge</div><div class="check-item">✓ Installed a compatible Java version</div><div class="check-item">✓ Kept server files in a separate folder</div><div class="check-item">✓ Read and consciously accepted the EULA</div><div class="check-item">✓ Started the server successfully and tested localhost</div><div class="check-item">✓ Configured server.properties and left server-ip blank unless there is a specific reason to change it</div><div class="check-item">✓ Enabled the whitelist and gave OP only to trusted people</div><div class="check-item">✓ Created a backup of the world and server files</div><div class="check-item">✓ Handled network settings carefully without disabling the firewall</div></div><div class="success"><span class="callout-title">The most important advice</span><p>Start with a simple server, test it locally, configure access, and only then add plugins, mods and extra features. Create a backup before every major update.</p></div><h3>Official resources</h3><div class="sources"><a href="https://www.minecraft.net/en-us/download/server" target="_blank" rel="noopener noreferrer">Minecraft Server Download ↗</a><a href="https://www.minecraft.net/en-us/eula" target="_blank" rel="noopener noreferrer">Minecraft EULA ↗</a><a href="https://docs.papermc.io/paper/getting-started/" target="_blank" rel="noopener noreferrer">PaperMC Docs ↗</a><a href="https://fabricmc.net/use/server/" target="_blank" rel="noopener noreferrer">Fabric Server ↗</a><a href="https://docs.neoforged.net/" target="_blank" rel="noopener noreferrer">NeoForge Docs ↗</a></div></section></div></main>
+<footer class="site-footer">
+<span id="footer-ru">Minecraft Guides · Гайды по Minecraft Java Edition</span>
+<span hidden="" id="footer-en">Minecraft Guides · Minecraft Java Edition guides</span>
+</footer>
+<script>
+
+    const ruButton = document.getElementById('ru-button');
+    const enButton = document.getElementById('en-button');
+    const ruContent = document.getElementById('ru-content');
+    const enContent = document.getElementById('en-content');
+    const footerRu = document.getElementById('footer-ru');
+    const footerEn = document.getElementById('footer-en');
+
+    function setLanguage(language) {
+      const isRussian = language === 'ru';
+      ruContent.hidden = !isRussian;
+      enContent.hidden = isRussian;
+      footerRu.hidden = !isRussian;
+      footerEn.hidden = isRussian;
+      ruButton.setAttribute('aria-pressed', String(isRussian));
+      enButton.setAttribute('aria-pressed', String(!isRussian));
+      document.documentElement.lang = language;
+      document.title = isRussian
+        ? 'Как создать сервер Minecraft — Minecraft Guides'
+        : 'How to Set Up a Minecraft Server — Minecraft Guides';
+      try {
+        localStorage.setItem('minecraft-guides-language', language);
+      } catch (error) {
+      }
+    }
+
+    ruButton.addEventListener('click', () => setLanguage('ru'));
+    enButton.addEventListener('click', () => setLanguage('en'));
+
+    try {
+      const savedLanguage = localStorage.getItem('minecraft-guides-language');
+      if (savedLanguage === 'en' || savedLanguage === 'ru') {
+        setLanguage(savedLanguage);
+      }
+    } catch (error) {
+      setLanguage('ru');
+    }
+  
+</script>
+</body>
+</html>
