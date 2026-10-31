@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Подробный гайд по повышению FPS в Minecraft Java Edition: настройки графики, моды оптимизации и проверка производительности.">
+  <meta name="theme-color" content="#ffffff">
+  <title>Как повысить FPS в Minecraft — Minecraft Guides</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f7;
+      --surface: #ffffff;
+      --surface-soft: #f0f4f0;
+      --text: #202720;
+      --muted: #657066;
+      --border: #e1e7e1;
+      --accent: #258348;
+      --accent-dark: #176536;
+      --accent-soft: #e8f5eb;
+      --shadow: 0 8px 28px rgba(28, 49, 32, 0.055);
+      --radius: 16px;
+      --content: 900px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(37, 131, 72, 0.35);
+      outline-offset: 3px;
+    }
+
+    .site-header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .language-switch button {
+      min-width: 48px;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-switch button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--accent-dark);
+      box-shadow: 0 1px 4px rgba(28, 49, 32, 0.12);
+    }
+
+    .page {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      background: var(--accent-soft);
+      border: 1px solid #d6eadb;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 20px 0 16px;
+      font-size: clamp(2.15rem, 6vw, 3.65rem);
+      font-weight: 780;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+      font-weight: 740;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.12rem;
+      font-weight: 720;
+    }
+
+    p {
+      margin: 10px 0 14px;
+    }
+
+    .lead {
+      max-width: 740px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .intro-card,
+    .toc-card,
+    .content-card,
+    .note,
+    .warning,
+    .success {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 34px;
+      padding: 24px;
+    }
+
+    .intro-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toc-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .toc-heading {
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-dark);
+    }
+
+    .guide-section {
+      margin-top: 26px;
+      padding: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    .section-number {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .guide-section > p,
+    .guide-section li {
+      color: var(--muted);
+    }
+
+    .guide-section ul,
+    .guide-section ol {
+      margin: 12px 0 18px;
+      padding-left: 23px;
+    }
+
+    .guide-section li {
+      margin: 7px 0;
+      padding-left: 3px;
+    }
+
+    .setting-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .setting-item {
+      padding: 14px 15px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .setting-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .setting-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .note,
+    .warning,
+    .success {
+      margin: 18px 0;
+      padding: 17px 19px;
+      box-shadow: none;
+    }
+
+    .note {
+      background: #f3f7ff;
+      border-color: #dce7fa;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #f2e2c5;
+    }
+
+    .success {
+      background: var(--accent-soft);
+      border-color: #d6eadb;
+    }
+
+    .callout-title {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .note p,
+    .warning p,
+    .success p {
+      margin: 0;
+      color: #536052;
+      font-size: 14px;
+    }
+
+    .mod-card {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .mod-card h3 {
+      margin: 0 0 6px;
+    }
+
+    .mod-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .mod-link {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+
+    .step-index {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step p {
+      margin: 2px 0 0;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    details {
+      padding: 15px 17px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    summary {
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 15px;
+    }
+
+    .sources a {
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .final-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      padding: 12px 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .site-footer {
+      padding: 25px 20px 35px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner,
+      .page {
+        width: min(100% - 32px, var(--content));
+      }
+
+      .page {
+        padding-top: 38px;
+        padding-bottom: 56px;
+      }
+
+      .intro-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .guide-section {
+        padding: 23px 20px;
+      }
+
+      .toc-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .header-inner {
+        min-height: 68px;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .language-switch button {
+        min-width: 42px;
+        min-height: 36px;
+        padding: 6px 9px;
+      }
+
+      .page {
+        width: calc(100% - 28px);
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 10vw, 2.6rem);
+      }
+
+      .toc-list,
+      .setting-list,
+      .final-checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .guide-section {
+        padding: 21px 17px;
+        border-radius: 13px;
+      }
+
+      .meta-row {
+        gap: 8px 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../index.html" aria-label="Minecraft Guides">Minecraft <span>Guides</span></a>
+      <div class="language-switch" role="group" aria-label="Language selection">
+        <button type="button" id="ru-button" lang="ru" aria-pressed="true">RU</button>
+        <button type="button" id="en-button" lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <div id="ru-content" lang="ru">
+      <div class="eyebrow">Minecraft Java Edition · Производительность</div>
+      <h1>Как повысить FPS в Minecraft</h1>
+      <p class="lead">Практическое руководство по настройке Minecraft Java Edition. Разберём, что действительно влияет на количество кадров в секунду, какие параметры стоит изменить и как проверить результат без случайных настроек.</p>
+      <div class="meta-row">
+        <span><i class="dot"></i> Для Minecraft Java Edition</span>
+        <span><i class="dot"></i> Для начинающих</span>
+        <span><i class="dot"></i> Без гарантии одинакового результата на всех ПК</span>
+      </div>
+
+      <div class="intro-card">
+        <div>
+          <h2>Что ты узнаешь</h2>
+          <p>Как найти настройки, которые сильнее всего нагружают компьютер, как подобрать моды оптимизации и как сравнить производительность до и после изменений.</p>
+        </div>
+        <div>
+          <h2>Что понадобится</h2>
+          <p>Minecraft Java Edition, несколько минут на тестирование и возможность вернуть настройки, если новый вариант тебе не понравится.</p>
+        </div>
+      </div>
+
+      <nav class="toc-card" aria-label="Содержание гайда">
+        <div class="toc-heading">Содержание</div>
+        <ol class="toc-list">
+          <li><a href="#ru-fps-basics">1. Что такое FPS и почему он падает</a></li>
+          <li><a href="#ru-measure">2. Сначала измерь FPS</a></li>
+          <li><a href="#ru-video">3. Настройки графики</a></li>
+          <li><a href="#ru-distance">4. Дальность прорисовки и симуляции</a></li>
+          <li><a href="#ru-mods">5. Моды оптимизации</a></li>
+          <li><a href="#ru-java">6. Оперативная память и Java</a></li>
+          <li><a href="#ru-system">7. Настройки компьютера</a></li>
+          <li><a href="#ru-test">8. Как правильно проверить результат</a></li>
+          <li><a href="#ru-problems">9. Если FPS всё ещё низкий</a></li>
+          <li><a href="#ru-faq">10. Частые вопросы</a></li>
+        </ol>
+      </nav>
+
+      <section class="guide-section" id="ru-fps-basics">
+        <span class="section-number">РАЗДЕЛ 01</span>
+        <h2>Что такое FPS и почему он падает</h2>
+        <p>FPS — это количество кадров, которое игра отображает за одну секунду. Например, 60 FPS означает, что игра выводит примерно 60 кадров в секунду. Чем стабильнее частота кадров, тем плавнее обычно ощущается движение.</p>
+        <p>На производительность Minecraft влияют разные части компьютера:</p>
+        <ul>
+          <li><strong>Видеокарта</strong> выполняет большую часть работы по отрисовке изображения, эффектов и шейдеров.</li>
+          <li><strong>Процессор</strong> обрабатывает игровые события, сущностей, часть работы с чанками и другие вычисления.</li>
+          <li><strong>Оперативная память</strong> нужна игре и другим программам для хранения временных данных. Нехватка памяти может вызывать задержки и зависания.</li>
+          <li><strong>Накопитель</strong> влияет на скорость загрузки игры и данных мира, но замена диска сама по себе не обязательно повысит FPS во время игры.</li>
+        </ul>
+        <div class="note">
+          <span class="callout-title">FPS, Ping и лаги сервера — не одно и то же</span>
+          <p>Низкий FPS означает, что изображение обновляется недостаточно плавно. Высокий Ping означает задержку передачи данных по сети. Если игроки и мобы двигаются рывками, проблема также может быть на стороне сервера. Этот гайд посвящён именно FPS.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-measure">
+        <span class="section-number">РАЗДЕЛ 02</span>
+        <h2>Сначала измерь FPS</h2>
+        <p>Перед изменениями запиши исходный результат. Иначе будет сложно понять, помогла ли настройка или игра просто оказалась в менее нагруженном месте.</p>
+        <div class="steps">
+          <div class="step"><span class="step-index">1</span><p>Запусти Minecraft и зайди в тот мир или на тот сервер, где обычно замечаешь просадки.</p></div>
+          <div class="step"><span class="step-index">2</span><p>Открой экран отладки клавишей <strong>F3</strong>. На некоторых клавиатурах ноутбуков может понадобиться сочетание <strong>Fn + F3</strong>. Найди значение FPS.</p></div>
+          <div class="step"><span class="step-index">3</span><p>Постой примерно в одном месте 30–60 секунд и запиши обычное значение, а также минимальные заметные просадки.</p></div>
+          <div class="step"><span class="step-index">4</span><p>Повтори измерение после каждого крупного изменения, используя то же место, направление камеры и похожие условия.</p></div>
+        </div>
+        <p>Не сравнивай FPS в пустом поле и в загруженной деревне с десятками жителей: нагрузка в этих ситуациях разная. На результат также могут влиять погода, количество сущностей, генерация новых чанков и другие игроки.</p>
+      </section>
+
+      <section class="guide-section" id="ru-video">
+        <span class="section-number">РАЗДЕЛ 03</span>
+        <h2>Настрой графику</h2>
+        <p>Открой <strong>Настройки → Настройки графики (Options → Video Settings)</strong>. Названия и расположение отдельных пунктов могут отличаться между версиями Minecraft и модами, поэтому ориентируйся на смысл параметра.</p>
+        <h3>Стартовый набор настроек для слабого или среднего ПК</h3>
+        <div class="setting-list">
+          <div class="setting-item"><strong>Graphics — Fast</strong><span>Упрощает часть графических эффектов. Если разница во внешнем виде не важна, попробуй этот режим.</span></div>
+          <div class="setting-item"><strong>Render Distance — 6–8</strong><span>Начни с 6–8 чанков. Если игра работает плавно, постепенно увеличивай значение.</span></div>
+          <div class="setting-item"><strong>Simulation Distance — 4–6</strong><span>Попробуй снизить расстояние симуляции, если оно доступно. Помни, что это влияет на игровые обновления рядом с игроком.</span></div>
+          <div class="setting-item"><strong>Particles — Decreased / Minimal</strong><span>Уменьшает количество отображаемых частиц, например от эффектов и некоторых действий.</span></div>
+          <div class="setting-item"><strong>Clouds — Off / Fast</strong><span>Отключает облака или использует более простой вариант их отображения.</span></div>
+          <div class="setting-item"><strong>Entity Shadows — Off</strong><span>Отключает тени под существами. Выигрыш зависит от компьютера и сцены.</span></div>
+          <div class="setting-item"><strong>Entity Distance — 50–75%</strong><span>Если такой параметр есть, уменьши расстояние отображения существ. Дальние существа будут видны с меньшего расстояния.</span></div>
+          <div class="setting-item"><strong>Biome Blend — 0–2</strong><span>Уменьшает плавное смешивание цветов соседних биомов. Эффект на FPS обычно зависит от сцены.</span></div>
+        </div>
+        <h3>VSync и ограничение FPS</h3>
+        <p><strong>VSync</strong> синхронизирует частоту кадров с обновлением монитора. Он может уменьшить разрывы изображения, но на некоторых системах добавляет задержку управления или ограничивает FPS. Не обязательно отключать его всем.</p>
+        <ul>
+          <li>Если видишь горизонтальные разрывы изображения, попробуй включить VSync.</li>
+          <li>Если чувствуешь задержку управления, сравни игру с включённым и выключенным VSync.</li>
+          <li>Ограничение FPS можно установить примерно на частоту обновления монитора, например 60 или 120 FPS, если компьютер способен стабильно держать это значение.</li>
+          <li>Неограниченный FPS не всегда лучше: видеокарта может работать с высокой нагрузкой даже тогда, когда дополнительные кадры тебе не нужны.</li>
+        </ul>
+        <div class="warning">
+          <span class="callout-title">Не копируй настройки вслепую</span>
+          <p>Значения выше — отправная точка для теста, а не универсальный пресет. Если у тебя мощный компьютер, можно оставить более высокую дальность прорисовки и качество графики.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-distance">
+        <span class="section-number">РАЗДЕЛ 04</span>
+        <h2>Понизь дальность прорисовки и симуляции</h2>
+        <h3>Render Distance — дальность прорисовки</h3>
+        <p>Этот параметр определяет, насколько далеко от игрока игра отображает загруженные чанки. Чем больше чанков нужно показывать одновременно, тем больше работы получает компьютер. Снижение дальности прорисовки — один из первых способов проверить, не слишком ли велика нагрузка на систему.</p>
+        <p>Начни с 6–8 чанков на слабом ПК. Если FPS остаётся стабильным и хочется видеть дальше, увеличивай значение по одному-двум шагам и проверяй результат.</p>
+        <h3>Simulation Distance — дальность симуляции</h3>
+        <p>Это не просто расстояние, на котором виден мир. Параметр определяет область, в которой продолжаются некоторые игровые обновления: например, работа сущностей и другие процессы мира. Снижение значения может уменьшить нагрузку на процессор, но также меняет то, как далеко от игрока продолжаются игровые процессы.</p>
+        <p>В одиночном мире попробуй значение 4–6, если игра сильно нагружает процессор. На сервере доступные параметры могут зависеть от настроек самого сервера, поэтому не всегда игрок может изменить их самостоятельно.</p>
+        <div class="note">
+          <span class="callout-title">Важно для ферм и механизмов</span>
+          <p>Если уменьшить дальность симуляции, некоторые сущности и игровые процессы будут обновляться на меньшем расстоянии. Не делай вывод о работе фермы, стоя далеко от неё: сначала проверь, находится ли она в активной области симуляции.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-mods">
+        <span class="section-number">РАЗДЕЛ 05</span>
+        <h2>Используй моды оптимизации</h2>
+        <p>Моды могут улучшить производительность, но каждый из них решает свою задачу. Не устанавливай случайную большую сборку модов только ради FPS. Начни с одного подходящего мода и проверь, как изменилась игра.</p>
+        <div class="mod-card">
+          <h3>Sodium</h3>
+          <p>Заменяет часть системы рендеринга Minecraft и оптимизирует отображение мира. Это один из основных вариантов для улучшения графической производительности клиента.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/sodium" target="_blank" rel="noopener noreferrer">Официальная страница Sodium на Modrinth ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>Lithium</h3>
+          <p>Оптимизирует внутренние игровые процессы: например, обработку сущностей, физику и обновления блоков. Он не является просто модом для графики; польза может проявляться в более стабильной работе игры и игрового сервера.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/lithium" target="_blank" rel="noopener noreferrer">Официальная страница Lithium на Modrinth ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>FerriteCore</h3>
+          <p>Уменьшает использование оперативной памяти некоторыми данными Minecraft и модов. Это может помочь большим сборкам, но само по себе не гарантирует повышение среднего FPS.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/ferrite-core" target="_blank" rel="noopener noreferrer">Официальная страница FerriteCore на Modrinth ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>Entity Culling</h3>
+          <p>Помогает не тратить ресурсы на отображение некоторых существ и блоков с отдельной моделью, которые закрыты стенами или другими объектами и не видны игроку. Эффект особенно зависит от количества таких объектов в сцене.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/entityculling" target="_blank" rel="noopener noreferrer">Официальная страница Entity Culling на Modrinth ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>ImmediatelyFast</h3>
+          <p>Оптимизирует отдельные операции немедленного рендеринга, включая некоторые элементы интерфейса и отображение сущностей. Результат зависит от сцены и конфигурации компьютера.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/immediatelyfast" target="_blank" rel="noopener noreferrer">Официальная страница ImmediatelyFast на Modrinth ↗</a>
+        </div>
+        <h3>Как безопасно установить моды</h3>
+        <ol>
+          <li>Узнай точную версию Minecraft, которую используешь.</li>
+          <li>Проверь, какой загрузчик модов нужен: Fabric, NeoForge, Forge или Quilt.</li>
+          <li>На странице каждого мода проверь совместимость одновременно с версией игры и загрузчиком.</li>
+          <li>Скачивай файлы с официальной страницы проекта или другого источника, на который ссылается автор мода.</li>
+          <li>Сначала установи один мод, запусти игру и проверь, что она работает. Затем добавляй следующий.</li>
+          <li>Перед изменением большой сборки сделай копию папок мира и конфигураций.</li>
+        </ol>
+        <div class="warning">
+          <span class="callout-title">Не все моды совместимы между собой</span>
+          <p>Не скачивай файл только потому, что в названии написано «Sodium» или «1.21». Выбери именно файл для своей версии игры и загрузчика. Не смешивай разные загрузчики и не добавляй одновременно несколько модов, которые заменяют одну и ту же систему рендеринга, без проверки их совместимости.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-java">
+        <span class="section-number">РАЗДЕЛ 06</span>
+        <h2>Оперативная память и Java</h2>
+        <p>Minecraft Java Edition использует оперативную память компьютера. Если памяти мало, игра может чаще делать паузы, особенно при загрузке мира или использовании большой сборки модов. Но выделение большего объёма памяти не означает автоматического роста FPS.</p>
+        <h3>Сколько памяти выделять</h3>
+        <ul>
+          <li>Для обычной игры без большой сборки начни со стандартных настроек лаунчера.</li>
+          <li>Для модов и сборок следуй рекомендациям автора сборки, если они указаны.</li>
+          <li>Не выделяй Minecraft всю оперативную память компьютера: она нужна также системе, лаунчеру и другим программам.</li>
+          <li>Если игра использует много памяти, но FPS низкий из-за видеокарты или процессора, увеличение лимита памяти проблему не решит.</li>
+        </ul>
+        <h3>Проверь версию Java</h3>
+        <p>Разные версии Minecraft требуют разные версии Java. Если используешь официальный Minecraft Launcher, обычно безопаснее оставить выбранную им среду Java, если у тебя нет конкретной причины менять её. При использовании стороннего лаунчера следуй требованиям версии игры и самого лаунчера.</p>
+        <div class="note">
+          <span class="callout-title">Не добавляй случайные JVM-аргументы</span>
+          <p>В интернете встречаются длинные строки параметров Java, которым обещают «максимальный FPS». Не вставляй их без понимания назначения: часть советов устарела или подходит только для определённых версий Java и сборок.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-system">
+        <span class="section-number">РАЗДЕЛ 07</span>
+        <h2>Проверь настройки компьютера</h2>
+        <h3>Закрой программы, которые не нужны во время игры</h3>
+        <p>Браузер с большим количеством вкладок, запись экрана, другие игры и тяжёлые программы могут использовать память, процессор или видеокарту. Перед запуском Minecraft закрой только те приложения, которые сейчас не нужны.</p>
+        <h3>Обнови драйвер видеокарты</h3>
+        <p>Проверь обновления драйвера на сайте производителя видеокарты: NVIDIA, AMD или Intel. Выбирай драйвер для точной модели и своей операционной системы. Не скачивай установщики драйверов с неизвестных сайтов и не устанавливай несколько программ для автоматического обновления драйверов одновременно.</p>
+        <h3>Если играешь на ноутбуке</h3>
+        <ul>
+          <li>По возможности играй с подключённым зарядным устройством: на батарее некоторые ноутбуки снижают производительность.</li>
+          <li>Проверь, не включён ли режим энергосбережения.</li>
+          <li>На ноутбуках с двумя видеокартами проверь в системных настройках графики, какая видеокарта назначена для Minecraft Java.</li>
+          <li>Не закрывай вентиляционные отверстия и не ставь ноутбук на мягкую поверхность, которая мешает охлаждению.</li>
+        </ul>
+        <h3>Убери тяжёлые визуальные дополнения</h3>
+        <ul>
+          <li>Для проверки временно отключи шейдеры.</li>
+          <li>Попробуй стандартный ресурспак Minecraft.</li>
+          <li>Ресурспаки с текстурами очень высокого разрешения могут заметно увеличивать нагрузку на видеокарту и видеопамять.</li>
+          <li>Если используешь моды с большим количеством анимаций и эффектов, проверь игру без них.</li>
+        </ul>
+      </section>
+
+      <section class="guide-section" id="ru-test">
+        <span class="section-number">РАЗДЕЛ 08</span>
+        <h2>Как правильно проверить результат</h2>
+        <p>Проверяй не только максимальное число FPS, но и то, насколько ровно игра работает. Короткие скачки до очень высокого значения не означают, что игра будет плавной постоянно.</p>
+        <div class="steps">
+          <div class="step"><span class="step-index">1</span><p>Выбери одно место для теста: например, базу в одиночном мире или знакомый участок сервера.</p></div>
+          <div class="step"><span class="step-index">2</span><p>Запиши FPS до изменений и отметь, когда появляются просадки.</p></div>
+          <div class="step"><span class="step-index">3</span><p>Измени один или два параметра, например Render Distance и Particles. Не меняй всё одновременно.</p></div>
+          <div class="step"><span class="step-index">4</span><p>Повтори тест в тех же условиях. Дай миру прогрузиться, чтобы генерация чанков не искажала сравнение.</p></div>
+          <div class="step"><span class="step-index">5</span><p>Оставь изменения, которые действительно помогли и не ухудшили комфорт игры. Остальные верни назад.</p></div>
+        </div>
+        <div class="success">
+          <span class="callout-title">Хороший результат — не только высокий FPS</span>
+          <p>Если игра держит стабильные 60 FPS без сильных скачков, это может ощущаться лучше, чем постоянные колебания между 90 и 35 FPS. Ориентируйся на плавность и частоту обновления своего монитора.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="ru-problems">
+        <span class="section-number">РАЗДЕЛ 09</span>
+        <h2>Если FPS всё ещё низкий</h2>
+        <h3>FPS падает только при повороте камеры</h3>
+        <p>Попробуй уменьшить Render Distance и отключить шейдеры. Если это помогает, нагрузка может быть связана с отображением мира и объектов.</p>
+        <h3>FPS падает рядом с большим количеством мобов</h3>
+        <p>Проверь Entity Distance и количество сущностей в области. Можно протестировать Entity Culling, если для твоей версии игры и загрузчика есть совместимый файл.</p>
+        <h3>Игра подвисает на несколько секунд</h3>
+        <p>Проверь, хватает ли оперативной памяти, не перегружен ли компьютер другими программами и не происходит ли в этот момент загрузка новых чанков. Подвисание не всегда означает низкую среднюю частоту кадров.</p>
+        <h3>После установки мода игра вылетает</h3>
+        <p>Убери последний добавленный мод и проверь запуск. Затем сверь версию Minecraft, загрузчик, зависимости и список известных несовместимостей на странице проекта. Не удаляй сохранение мира из-за ошибки запуска.</p>
+        <h3>В одиночном мире всё нормально, а на сервере есть рывки</h3>
+        <p>Проверь FPS отдельно от сетевой задержки. Если картинка плавная, но действия выполняются с задержкой или мобы двигаются рывками, причина может быть связана с Ping или производительностью сервера, а не с FPS.</p>
+      </section>
+
+      <section class="guide-section" id="ru-faq">
+        <span class="section-number">РАЗДЕЛ 10</span>
+        <h2>Частые вопросы</h2>
+        <div class="faq-list">
+          <details><summary>Какой FPS считается хорошим?</summary><p>Универсального числа нет. Для многих игроков 60 стабильных FPS уже комфортны. На мониторе с высокой частотой обновления можно стремиться к более высокому значению, если компьютер способен его стабильно выдавать.</p></details>
+          <details><summary>Поможет ли Sodium на любом компьютере?</summary><p>Он может улучшить рендеринг, но результат зависит от железа, версии Minecraft, драйверов и других модов. На конкретной системе прирост может быть большим, небольшим или почти незаметным.</p></details>
+          <details><summary>Нужно ли устанавливать все перечисленные моды?</summary><p>Нет. Начни с одного подходящего мода и проверь результат. Lithium, FerriteCore, Entity Culling и ImmediatelyFast решают разные задачи, поэтому их польза зависит от того, что именно ограничивает производительность.</p></details>
+          <details><summary>Сделает ли больше оперативной памяти больше FPS?</summary><p>Не обязательно. Дополнительная память помогает, когда её действительно не хватает. Если ограничение связано с процессором или видеокартой, увеличение выделенной памяти может ничего не изменить.</p></details>
+          <details><summary>Почему FPS высокий, но игра всё равно дёргается?</summary><p>Возможны короткие задержки при загрузке чанков, нехватка памяти, фоновые программы, перегрев или проблемы сервера. Смотри не только на среднее значение FPS, но и на моменты подвисаний.</p></details>
+        </div>
+      </section>
+
+      <section class="guide-section">
+        <span class="section-number">ИТОГ</span>
+        <h2>Краткий чек-лист</h2>
+        <p>Пройди эти пункты по порядку. После каждого крупного шага проверяй, что изменилось.</p>
+        <div class="final-checklist">
+          <div class="check-item">✓ Измерил FPS до изменений</div>
+          <div class="check-item">✓ Уменьшил Render Distance при необходимости</div>
+          <div class="check-item">✓ Проверил Simulation Distance</div>
+          <div class="check-item">✓ Настроил частицы, облака и тени</div>
+          <div class="check-item">✓ Проверил игру без шейдеров и тяжёлого ресурспака</div>
+          <div class="check-item">✓ Установил только совместимые моды</div>
+          <div class="check-item">✓ Проверил драйверы и фоновые программы</div>
+          <div class="check-item">✓ Повторил тест в тех же условиях</div>
+        </div>
+        <div class="success">
+          <span class="callout-title">Главный совет</span>
+          <p>Не существует одной настройки, которая гарантированно увеличит FPS на каждом компьютере. Найди, что именно ограничивает твою систему, меняй параметры постепенно и оставляй только те изменения, которые подтвердились тестом.</p>
+        </div>
+        <h3>Официальные страницы проектов</h3>
+        <div class="sources">
+          <a href="https://modrinth.com/mod/sodium" target="_blank" rel="noopener noreferrer">Sodium ↗</a>
+          <a href="https://modrinth.com/mod/lithium" target="_blank" rel="noopener noreferrer">Lithium ↗</a>
+          <a href="https://modrinth.com/mod/ferrite-core" target="_blank" rel="noopener noreferrer">FerriteCore ↗</a>
+          <a href="https://modrinth.com/mod/entityculling" target="_blank" rel="noopener noreferrer">Entity Culling ↗</a>
+          <a href="https://modrinth.com/mod/immediatelyfast" target="_blank" rel="noopener noreferrer">ImmediatelyFast ↗</a>
+        </div>
+      </section>
+    </div>
+
+    <div id="en-content" lang="en" hidden>
+      <div class="eyebrow">Minecraft Java Edition · Performance</div>
+      <h1>How to Increase FPS in Minecraft</h1>
+      <p class="lead">A practical guide to tuning Minecraft Java Edition. Learn what affects frame rate, which settings are worth changing, and how to compare performance without applying random tweaks.</p>
+      <div class="meta-row">
+        <span><i class="dot"></i> For Minecraft Java Edition</span>
+        <span><i class="dot"></i> Beginner-friendly</span>
+        <span><i class="dot"></i> Results vary by computer</span>
+      </div>
+
+      <div class="intro-card">
+        <div>
+          <h2>What you will learn</h2>
+          <p>How to identify settings that put the most load on your computer, choose optimization mods, and compare performance before and after making changes.</p>
+        </div>
+        <div>
+          <h2>What you need</h2>
+          <p>Minecraft Java Edition, a few minutes for testing, and a way to restore your settings if you do not like the result.</p>
+        </div>
+      </div>
+
+      <nav class="toc-card" aria-label="Guide contents">
+        <div class="toc-heading">Contents</div>
+        <ol class="toc-list">
+          <li><a href="#en-fps-basics">1. What FPS is and why it drops</a></li>
+          <li><a href="#en-measure">2. Measure your FPS first</a></li>
+          <li><a href="#en-video">3. Video settings</a></li>
+          <li><a href="#en-distance">4. Render and simulation distance</a></li>
+          <li><a href="#en-mods">5. Optimization mods</a></li>
+          <li><a href="#en-java">6. RAM and Java</a></li>
+          <li><a href="#en-system">7. Computer settings</a></li>
+          <li><a href="#en-test">8. How to test the results</a></li>
+          <li><a href="#en-problems">9. If FPS is still low</a></li>
+          <li><a href="#en-faq">10. Frequently asked questions</a></li>
+        </ol>
+      </nav>
+
+      <section class="guide-section" id="en-fps-basics">
+        <span class="section-number">SECTION 01</span>
+        <h2>What FPS is and why it drops</h2>
+        <p>FPS means frames per second. For example, 60 FPS means the game displays about 60 frames every second. A more stable frame rate usually makes movement feel smoother.</p>
+        <p>Different parts of your computer affect Minecraft performance:</p>
+        <ul>
+          <li><strong>Graphics card (GPU)</strong> does much of the work involved in drawing the world, effects, and shaders.</li>
+          <li><strong>Processor (CPU)</strong> handles game logic, entities, part of chunk processing, and other calculations.</li>
+          <li><strong>RAM</strong> stores temporary data used by the game and other programs. Running out of memory can cause pauses and stutters.</li>
+          <li><strong>Storage drive</strong> affects loading times, but replacing a drive does not automatically increase in-game FPS.</li>
+        </ul>
+        <div class="note">
+          <span class="callout-title">FPS, ping, and server lag are different things</span>
+          <p>Low FPS means the image is not updating smoothly enough. High ping means network data takes longer to travel. If players or mobs move irregularly, the server may also be the cause. This guide focuses on FPS.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-measure">
+        <span class="section-number">SECTION 02</span>
+        <h2>Measure your FPS first</h2>
+        <p>Write down your starting result before changing anything. Otherwise, it is difficult to tell whether a setting helped or whether the game was simply in a less demanding area.</p>
+        <div class="steps">
+          <div class="step"><span class="step-index">1</span><p>Launch Minecraft and enter the world or server where you usually notice slowdowns.</p></div>
+          <div class="step"><span class="step-index">2</span><p>Open the debug screen with <strong>F3</strong>. Some laptop keyboards may require <strong>Fn + F3</strong>. Find the FPS value.</p></div>
+          <div class="step"><span class="step-index">3</span><p>Stand in roughly the same place for 30–60 seconds. Write down the usual FPS and any noticeable drops.</p></div>
+          <div class="step"><span class="step-index">4</span><p>Repeat the test after each major change, using the same location, camera direction, and similar conditions.</p></div>
+        </div>
+        <p>Do not compare an empty field with a busy village full of villagers: these scenes create different workloads. Weather, entities, newly generated chunks, and other players can also affect the result.</p>
+      </section>
+
+      <section class="guide-section" id="en-video">
+        <span class="section-number">SECTION 03</span>
+        <h2>Adjust your graphics settings</h2>
+        <p>Open <strong>Options → Video Settings</strong>. Names and locations of individual options may differ between Minecraft versions and mods, so focus on what each setting does.</p>
+        <h3>Starting settings for a low- or mid-range PC</h3>
+        <div class="setting-list">
+          <div class="setting-item"><strong>Graphics — Fast</strong><span>Simplifies some visual effects. Try it if visual quality is less important than performance.</span></div>
+          <div class="setting-item"><strong>Render Distance — 6–8</strong><span>Start at 6–8 chunks. Increase it gradually if the game remains smooth.</span></div>
+          <div class="setting-item"><strong>Simulation Distance — 4–6</strong><span>Try lowering it if the option is available. Remember that it also affects nearby game updates.</span></div>
+          <div class="setting-item"><strong>Particles — Decreased / Minimal</strong><span>Reduces the number of displayed particles from effects and some actions.</span></div>
+          <div class="setting-item"><strong>Clouds — Off / Fast</strong><span>Turns clouds off or uses a simpler way of drawing them.</span></div>
+          <div class="setting-item"><strong>Entity Shadows — Off</strong><span>Turns off shadows underneath entities. The performance effect depends on the computer and scene.</span></div>
+          <div class="setting-item"><strong>Entity Distance — 50–75%</strong><span>If available, reduce the distance at which entities are displayed. Distant entities will become visible from a shorter range.</span></div>
+          <div class="setting-item"><strong>Biome Blend — 0–2</strong><span>Reduces how smoothly colours blend between neighbouring biomes. Its FPS impact depends on the scene.</span></div>
+        </div>
+        <h3>VSync and the frame-rate limit</h3>
+        <p><strong>VSync</strong> synchronizes frame output with your monitor's refresh rate. It can reduce screen tearing, but on some systems it adds input delay or limits FPS. It does not need to be turned off by everyone.</p>
+        <ul>
+          <li>If you see horizontal screen tearing, try turning VSync on.</li>
+          <li>If controls feel delayed, compare the game with VSync enabled and disabled.</li>
+          <li>You can set the FPS limit close to your monitor's refresh rate, such as 60 or 120 FPS, provided your computer can maintain it steadily.</li>
+          <li>Unlimited FPS is not always better: the graphics card may stay heavily loaded even when you do not need extra frames.</li>
+        </ul>
+        <div class="warning">
+          <span class="callout-title">Do not copy settings blindly</span>
+          <p>These values are a starting point for testing, not a universal preset. If you have a powerful computer, you can keep a higher render distance and better graphics quality.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-distance">
+        <span class="section-number">SECTION 04</span>
+        <h2>Lower render distance and simulation distance</h2>
+        <h3>Render Distance</h3>
+        <p>This setting controls how far from the player the game displays loaded chunks. The more chunks the game has to show at once, the more work your computer has to do. Lowering render distance is one of the first ways to check whether the system is under too much load.</p>
+        <p>Start at 6–8 chunks on a low-end PC. If FPS remains stable and you want to see farther, increase the value by one or two steps and test again.</p>
+        <h3>Simulation Distance</h3>
+        <p>This is not just the distance at which the world is visible. It defines an area in which some game updates continue, such as entity activity and other world processes. Lowering it may reduce CPU load, but it also changes how far from the player those processes continue.</p>
+        <p>In a single-player world, try 4–6 if the game puts heavy load on your processor. On a multiplayer server, available options may depend on the server's own settings, so players cannot always change them themselves.</p>
+        <div class="note">
+          <span class="callout-title">Important for farms and redstone machines</span>
+          <p>If you lower simulation distance, some entities and game processes will update only within a smaller area. Do not judge a farm while standing far away: first check whether it is inside the active simulation area.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-mods">
+        <span class="section-number">SECTION 05</span>
+        <h2>Use optimization mods</h2>
+        <p>Mods can improve performance, but each one has a different purpose. Do not install a random large modpack just to gain FPS. Start with one suitable mod and check how the game behaves.</p>
+        <div class="mod-card">
+          <h3>Sodium</h3>
+          <p>Replaces parts of Minecraft's rendering system and optimizes how the world is displayed. It is one of the main options for improving client-side graphics performance.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/sodium" target="_blank" rel="noopener noreferrer">Sodium official Modrinth page ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>Lithium</h3>
+          <p>Optimizes internal game systems, such as entity processing, physics, and block updates. It is not simply a graphics mod; benefits may appear as smoother game and server processing.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/lithium" target="_blank" rel="noopener noreferrer">Lithium official Modrinth page ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>FerriteCore</h3>
+          <p>Reduces RAM usage by optimizing how some Minecraft and mod data is stored. This can help larger modpacks, but it does not guarantee a higher average FPS by itself.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/ferrite-core" target="_blank" rel="noopener noreferrer">FerriteCore official Modrinth page ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>Entity Culling</h3>
+          <p>Helps avoid spending resources rendering certain entities and block entities that are hidden behind walls or other objects. Its effect depends especially on how many such objects are in the scene.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/entityculling" target="_blank" rel="noopener noreferrer">Entity Culling official Modrinth page ↗</a>
+        </div>
+        <div class="mod-card">
+          <h3>ImmediatelyFast</h3>
+          <p>Optimizes certain immediate-mode rendering operations, including some interface elements and entity rendering. Results depend on the scene and computer configuration.</p>
+          <a class="mod-link" href="https://modrinth.com/mod/immediatelyfast" target="_blank" rel="noopener noreferrer">ImmediatelyFast official Modrinth page ↗</a>
+        </div>
+        <h3>How to install mods safely</h3>
+        <ol>
+          <li>Find the exact Minecraft version you are using.</li>
+          <li>Check which mod loader you need: Fabric, NeoForge, Forge, or Quilt.</li>
+          <li>On each mod page, check compatibility with both your game version and loader.</li>
+          <li>Download files from the official project page or another source linked by the mod author.</li>
+          <li>Install one mod first, launch the game, and check that it works. Then add the next one.</li>
+          <li>Before changing a large modpack, make a backup of your world and configuration folders.</li>
+        </ol>
+        <div class="warning">
+          <span class="callout-title">Not all mods are compatible</span>
+          <p>Do not download a file just because its name contains “Sodium” or “1.21”. Choose a file for your exact game version and loader. Do not mix different mod loaders or add multiple mods that replace the same rendering system without checking compatibility.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-java">
+        <span class="section-number">SECTION 06</span>
+        <h2>RAM and Java</h2>
+        <p>Minecraft Java Edition uses your computer's RAM. If there is not enough memory, the game may pause more often, especially while loading a world or using a large modpack. However, allocating more RAM does not automatically increase FPS.</p>
+        <h3>How much RAM should you allocate?</h3>
+        <ul>
+          <li>For regular gameplay without a large modpack, start with the launcher's default settings.</li>
+          <li>For mods and modpacks, follow the pack creator's recommendations when provided.</li>
+          <li>Do not allocate all of your computer's RAM to Minecraft: the operating system, launcher, and other programs need memory too.</li>
+          <li>If the game already has enough memory but performance is limited by the CPU or GPU, increasing the RAM limit will not solve the problem.</li>
+        </ul>
+        <h3>Check your Java version</h3>
+        <p>Different Minecraft versions require different Java versions. When using the official Minecraft Launcher, it is usually safest to keep the Java runtime selected by the launcher unless you have a specific reason to change it. With a third-party launcher, follow the requirements for your game version and launcher.</p>
+        <div class="note">
+          <span class="callout-title">Avoid random JVM arguments</span>
+          <p>You may find long Java parameter strings online that promise “maximum FPS”. Do not paste them without understanding what they do: some advice is outdated or only applies to certain Java versions and modpacks.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-system">
+        <span class="section-number">SECTION 07</span>
+        <h2>Check your computer settings</h2>
+        <h3>Close programs you do not need while playing</h3>
+        <p>A browser with many tabs, screen recording software, other games, and demanding programs may use RAM, CPU, or GPU resources. Before launching Minecraft, close only the apps you are not currently using.</p>
+        <h3>Update your graphics driver</h3>
+        <p>Check for driver updates on the graphics card manufacturer's website: NVIDIA, AMD, or Intel. Choose the driver for your exact model and operating system. Avoid driver installers from unknown websites and do not install multiple automatic driver-updater apps at once.</p>
+        <h3>If you play on a laptop</h3>
+        <ul>
+          <li>When possible, play while connected to the charger: some laptops reduce performance on battery power.</li>
+          <li>Check that power-saving mode is not enabled.</li>
+          <li>On laptops with two graphics adapters, check your system's graphics settings to see which GPU is assigned to Minecraft Java.</li>
+          <li>Keep air vents clear and avoid placing the laptop on a soft surface that blocks cooling.</li>
+        </ul>
+        <h3>Remove demanding visual add-ons</h3>
+        <ul>
+          <li>Temporarily turn shaders off for testing.</li>
+          <li>Try the default Minecraft resource pack.</li>
+          <li>Very high-resolution resource packs can put extra load on the GPU and video memory.</li>
+          <li>If you use mods with many animations and effects, test the game without them.</li>
+        </ul>
+      </section>
+
+      <section class="guide-section" id="en-test">
+        <span class="section-number">SECTION 08</span>
+        <h2>How to test the results properly</h2>
+        <p>Check more than the highest FPS number. Also pay attention to how consistently the game runs. A brief jump to a very high value does not mean the game will remain smooth.</p>
+        <div class="steps">
+          <div class="step"><span class="step-index">1</span><p>Choose one test location, such as your single-player base or a familiar area on a server.</p></div>
+          <div class="step"><span class="step-index">2</span><p>Write down FPS before making changes and note when drops happen.</p></div>
+          <div class="step"><span class="step-index">3</span><p>Change one or two options, such as Render Distance and Particles. Do not change everything at once.</p></div>
+          <div class="step"><span class="step-index">4</span><p>Repeat the test under the same conditions. Let the world load so chunk generation does not distort the comparison.</p></div>
+          <div class="step"><span class="step-index">5</span><p>Keep changes that genuinely help without making the game less comfortable. Revert the others.</p></div>
+        </div>
+        <div class="success">
+          <span class="callout-title">A good result is not only a high FPS number</span>
+          <p>If the game holds a steady 60 FPS without major drops, it may feel smoother than constantly changing between 90 and 35 FPS. Consider both smoothness and your monitor's refresh rate.</p>
+        </div>
+      </section>
+
+      <section class="guide-section" id="en-problems">
+        <span class="section-number">SECTION 09</span>
+        <h2>If FPS is still low</h2>
+        <h3>FPS drops mainly when you turn the camera</h3>
+        <p>Try lowering Render Distance and turning shaders off. If that helps, the workload may be related to displaying the world and its objects.</p>
+        <h3>FPS drops near many mobs</h3>
+        <p>Check Entity Distance and the number of entities in the area. You can test Entity Culling if a compatible file is available for your game version and loader.</p>
+        <h3>The game freezes for a few seconds</h3>
+        <p>Check whether there is enough RAM, whether other programs are overloading the computer, and whether new chunks are loading at that moment. A freeze does not always mean the average frame rate is low.</p>
+        <h3>The game crashes after installing a mod</h3>
+        <p>Remove the last mod you added and test the launch again. Then check the Minecraft version, loader, dependencies, and known incompatibilities on the project page. Do not delete your saved world because of a launch error.</p>
+        <h3>Single-player is fine, but a server feels laggy</h3>
+        <p>Check FPS separately from network delay. If the image is smooth but actions are delayed or mobs move irregularly, the cause may be ping or server performance rather than FPS.</p>
+      </section>
+
+      <section class="guide-section" id="en-faq">
+        <span class="section-number">SECTION 10</span>
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+          <details><summary>What is a good FPS?</summary><p>There is no universal number. For many players, a stable 60 FPS is already comfortable. On a monitor with a higher refresh rate, you may aim higher if your computer can maintain it steadily.</p></details>
+          <details><summary>Will Sodium help every computer?</summary><p>It can improve rendering, but results depend on hardware, Minecraft version, drivers, and other mods. On a particular system, the improvement may be large, small, or barely noticeable.</p></details>
+          <details><summary>Should I install every mod listed here?</summary><p>No. Start with one suitable mod and test the result. Lithium, FerriteCore, Entity Culling, and ImmediatelyFast solve different problems, so their usefulness depends on what limits performance on your computer.</p></details>
+          <details><summary>Will allocating more RAM increase FPS?</summary><p>Not necessarily. More memory helps when the game is actually running out of it. If the CPU or GPU is the bottleneck, increasing the memory limit may change nothing.</p></details>
+          <details><summary>Why is FPS high but the game still stutters?</summary><p>Possible causes include short delays while loading chunks, insufficient memory, background programs, overheating, or server issues. Pay attention to freezes as well as the average FPS value.</p></details>
+        </div>
+      </section>
+
+      <section class="guide-section">
+        <span class="section-number">SUMMARY</span>
+        <h2>Quick checklist</h2>
+        <p>Go through these items in order. After each major step, check what has changed.</p>
+        <div class="final-checklist">
+          <div class="check-item">✓ Measured FPS before making changes</div>
+          <div class="check-item">✓ Lowered Render Distance if needed</div>
+          <div class="check-item">✓ Checked Simulation Distance</div>
+          <div class="check-item">✓ Adjusted particles, clouds, and shadows</div>
+          <div class="check-item">✓ Tested without shaders and demanding resource packs</div>
+          <div class="check-item">✓ Installed only compatible mods</div>
+          <div class="check-item">✓ Checked drivers and background apps</div>
+          <div class="check-item">✓ Repeated the test under the same conditions</div>
+        </div>
+        <div class="success">
+          <span class="callout-title">The most important advice</span>
+          <p>There is no single setting that is guaranteed to increase FPS on every computer. Find what limits your system, change settings gradually, and keep only the changes that actually improve your test results.</p>
+        </div>
+        <h3>Official project pages</h3>
+        <div class="sources">
+          <a href="https://modrinth.com/mod/sodium" target="_blank" rel="noopener noreferrer">Sodium ↗</a>
+          <a href="https://modrinth.com/mod/lithium" target="_blank" rel="noopener noreferrer">Lithium ↗</a>
+          <a href="https://modrinth.com/mod/ferrite-core" target="_blank" rel="noopener noreferrer">FerriteCore ↗</a>
+          <a href="https://modrinth.com/mod/entityculling" target="_blank" rel="noopener noreferrer">Entity Culling ↗</a>
+          <a href="https://modrinth.com/mod/immediatelyfast" target="_blank" rel="noopener noreferrer">ImmediatelyFast ↗</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span id="footer-ru">Minecraft Guides · Гайды по Minecraft Java Edition</span>
+    <span id="footer-en" hidden>Minecraft Guides · Minecraft Java Edition guides</span>
+  </footer>
+
+  <script>
+    const ruButton = document.getElementById('ru-button');
+    const enButton = document.getElementById('en-button');
+    const ruContent = document.getElementById('ru-content');
+    const enContent = document.getElementById('en-content');
+    const footerRu = document.getElementById('footer-ru');
+    const footerEn = document.getElementById('footer-en');
+
+    function setLanguage(language) {
+      const isRussian = language === 'ru';
+      ruContent.hidden = !isRussian;
+      enContent.hidden = isRussian;
+      footerRu.hidden = !isRussian;
+      footerEn.hidden = isRussian;
+      ruButton.setAttribute('aria-pressed', String(isRussian));
+      enButton.setAttribute('aria-pressed', String(!isRussian));
+      document.documentElement.lang = language;
+      document.title = isRussian
+        ? 'Как повысить FPS в Minecraft — Minecraft Guides'
+        : 'How to Increase FPS in Minecraft — Minecraft Guides';
+      try {
+        localStorage.setItem('minecraft-guides-language', language);
+      } catch (error) {
+      }
+    }
+
+    ruButton.addEventListener('click', () => setLanguage('ru'));
+    enButton.addEventListener('click', () => setLanguage('en'));
+
+    try {
+      const savedLanguage = localStorage.getItem('minecraft-guides-language');
+      if (savedLanguage === 'en' || savedLanguage === 'ru') {
+        setLanguage(savedLanguage);
+      }
+    } catch (error) {
+      setLanguage('ru');
+    }
+  </script>
+</body>
+</html>
