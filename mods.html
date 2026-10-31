@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Подробный гайд по установке и настройке модов Minecraft Java Edition: Forge, Fabric, NeoForge, зависимости, совместимость, сборки и решение ошибок." name="description"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>Как установить моды в Minecraft — Minecraft Guides</title>
+<style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f7;
+      --surface: #ffffff;
+      --surface-soft: #f0f4f0;
+      --text: #202720;
+      --muted: #657066;
+      --border: #e1e7e1;
+      --accent: #258348;
+      --accent-dark: #176536;
+      --accent-soft: #e8f5eb;
+      --shadow: 0 8px 28px rgba(28, 49, 32, 0.055);
+      --radius: 16px;
+      --content: 900px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(37, 131, 72, 0.35);
+      outline-offset: 3px;
+    }
+
+    .site-header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .language-switch button {
+      min-width: 48px;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-switch button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--accent-dark);
+      box-shadow: 0 1px 4px rgba(28, 49, 32, 0.12);
+    }
+
+    .page {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      background: var(--accent-soft);
+      border: 1px solid #d6eadb;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 20px 0 16px;
+      font-size: clamp(2.15rem, 6vw, 3.65rem);
+      font-weight: 780;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+      font-weight: 740;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.12rem;
+      font-weight: 720;
+    }
+
+    p {
+      margin: 10px 0 14px;
+    }
+
+    .lead {
+      max-width: 740px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .intro-card,
+    .toc-card,
+    .content-card,
+    .note,
+    .warning,
+    .success {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 34px;
+      padding: 24px;
+    }
+
+    .intro-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toc-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .toc-heading {
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-dark);
+    }
+
+    .guide-section {
+      margin-top: 26px;
+      padding: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    .section-number {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .guide-section > p,
+    .guide-section li {
+      color: var(--muted);
+    }
+
+    .guide-section ul,
+    .guide-section ol {
+      margin: 12px 0 18px;
+      padding-left: 23px;
+    }
+
+    .guide-section li {
+      margin: 7px 0;
+      padding-left: 3px;
+    }
+
+    .setting-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .setting-item {
+      padding: 14px 15px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .setting-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .setting-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .note,
+    .warning,
+    .success {
+      margin: 18px 0;
+      padding: 17px 19px;
+      box-shadow: none;
+    }
+
+    .note {
+      background: #f3f7ff;
+      border-color: #dce7fa;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #f2e2c5;
+    }
+
+    .success {
+      background: var(--accent-soft);
+      border-color: #d6eadb;
+    }
+
+    .callout-title {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .note p,
+    .warning p,
+    .success p {
+      margin: 0;
+      color: #536052;
+      font-size: 14px;
+    }
+
+    .mod-card {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .mod-card h3 {
+      margin: 0 0 6px;
+    }
+
+    .mod-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .mod-link {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+
+    .step-index {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step p {
+      margin: 2px 0 0;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    details {
+      padding: 15px 17px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    summary {
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 15px;
+    }
+
+    .sources a {
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .final-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      padding: 12px 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .site-footer {
+      padding: 25px 20px 35px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner,
+      .page {
+        width: min(100% - 32px, var(--content));
+      }
+
+      .page {
+        padding-top: 38px;
+        padding-bottom: 56px;
+      }
+
+      .intro-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .guide-section {
+        padding: 23px 20px;
+      }
+
+      .toc-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .header-inner {
+        min-height: 68px;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .language-switch button {
+        min-width: 42px;
+        min-height: 36px;
+        padding: 6px 9px;
+      }
+
+      .page {
+        width: calc(100% - 28px);
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 10vw, 2.6rem);
+      }
+
+      .toc-list,
+      .setting-list,
+      .final-checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .guide-section {
+        padding: 21px 17px;
+        border-radius: 13px;
+      }
+
+      .meta-row {
+        gap: 8px 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="Minecraft Guides" class="brand" href="./index.html">Minecraft <span>Guides</span></a>
+<div aria-label="Language selection" class="language-switch" role="group">
+<button aria-pressed="true" id="ru-button" lang="ru" type="button">RU</button>
+<button aria-pressed="false" id="en-button" lang="en" type="button">EN</button>
+</div>
+</div>
+</header>
+<main class="page"><div id="ru-content" lang="ru">
+<div class="eyebrow">Minecraft Java Edition · Моды и модификации</div>
+<h1>Как установить и настроить моды в Minecraft</h1>
+<p class="lead">Практическое руководство по модам Minecraft Java Edition. Разберём Forge, Fabric и NeoForge, установку файлов и зависимостей, совместимость сборок и способы найти причину вылетов.</p>
+<div class="meta-row"><span><i class="dot"></i> Для Minecraft Java Edition</span><span><i class="dot"></i> Для начинающих</span><span><i class="dot"></i> Инструкции для Windows и других систем</span></div>
+<div class="intro-card"><div><h2>Что ты узнаешь</h2><p>Как выбрать правильный загрузчик, установить моды и библиотеки, проверить совместимость и исправить распространённые ошибки.</p></div><div><h2>Что понадобится</h2><p>Minecraft Java Edition, доступ к папке игры, несколько минут на настройку и резервная копия важных миров.</p></div></div>
+<nav aria-label="Содержание гайда" class="toc-card"><div class="toc-heading">Содержание</div><ol class="toc-list"><li><a href="#ru-what">1. Что такое моды и загрузчики</a></li><li><a href="#ru-before">2. Подготовь Minecraft перед установкой</a></li><li><a href="#ru-forge">3. Установка Forge</a></li><li><a href="#ru-fabric">4. Установка Fabric</a></li><li><a href="#ru-neoforge">5. Установка NeoForge</a></li><li><a href="#ru-install">6. Как правильно установить моды</a></li><li><a href="#ru-dependencies">7. Зависимости и библиотеки</a></li><li><a href="#ru-compat">8. Проверь совместимость модов</a></li><li><a href="#ru-modpacks">9. Сборки модов и сторонние лаунчеры</a></li><li><a href="#ru-errors">10. Решение проблем и вылетов</a></li><li><a href="#ru-safety">11. Безопасность, обновления и резервные копии</a></li><li><a href="#ru-faq">12. Частые вопросы</a></li><li><a href="#ru-check">13. Краткий чек-лист</a></li></ol></nav>
+<section class="guide-section" id="ru-what"><span class="section-number">РАЗДЕЛ 01</span><h2>Что такое моды и загрузчики</h2>
+<p><strong>Мод</strong> — это файл, который изменяет или расширяет Minecraft: добавляет предметы, блоки, механики, интерфейс, оптимизацию или новые возможности. Большинство модов для Java Edition распространяются в виде файлов <code>.jar</code>.</p>
+<p>Чтобы игра могла загружать моды, обычно нужен <strong>загрузчик модов</strong> — отдельная среда, например Forge, Fabric или NeoForge. Это не одно и то же: мод, собранный для одного загрузчика, обычно нельзя просто перенести в другой.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Forge</strong><span>Загрузчик с большой историей и собственной экосистемой модов. Перед скачиванием проверяй, что выбран именно Forge и нужная версия игры.</span></div>
+<div class="setting-item"><strong>Fabric</strong><span>Лёгкий и модульный загрузчик. Многие моды используют Fabric API как отдельную зависимость.</span></div>
+<div class="setting-item"><strong>NeoForge</strong><span>Отдельный проект и экосистема, основанная на Forge. Поддержка конкретных версий и модов отличается от Forge.</span></div>
+<div class="setting-item"><strong>Quilt и другие</strong><span>Существуют и другие решения. Используй их только тогда, когда выбранные моды прямо заявляют совместимость с этим загрузчиком.</span></div>
+</div>
+<div class="note"><span class="callout-title">Главное правило совместимости</span><p>Проверяй сразу три вещи: точную версию Minecraft, загрузчик и версию самого мода. Совпадения только номера Minecraft недостаточно.</p></div>
+</section><section class="guide-section" id="ru-before"><span class="section-number">РАЗДЕЛ 02</span><h2>Подготовь Minecraft перед установкой</h2>
+<p>Перед установкой модов создай отдельный профиль или экземпляр игры. Так модификации не будут смешиваться с обычным Minecraft, а проверять ошибки станет проще.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Запусти нужную ванильную версию Minecraft хотя бы один раз и убедись, что она работает без модов.</p></div>
+<div class="step"><span class="step-index">2</span><p>Запиши номер версии игры, например тот, который указан в лаунчере. Не ориентируйся только на название сборки или скриншот мода.</p></div>
+<div class="step"><span class="step-index">3</span><p>Скопируй важные миры из папки <code>saves</code> в безопасное место. Для тестов лучше использовать копию мира.</p></div>
+<div class="step"><span class="step-index">4</span><p>Реши, какие моды нужны, и заранее проверь, какой загрузчик требует каждый из них.</p></div>
+</div>
+<p>Не устанавливай сразу десятки файлов. Сначала проверь чистый загрузчик, потом добавляй моды небольшими группами — так будет легче найти причину проблемы.</p>
+<div class="warning"><span class="callout-title">Не обновляй единственную копию мира</span><p>Новая версия мода или Minecraft может изменить данные мира. Перед обновлением загрузчика, модов или сборки сделай отдельную резервную копию.</p></div>
+</section><section class="guide-section" id="ru-forge"><span class="section-number">РАЗДЕЛ 03</span><h2>Установка Forge</h2>
+<p>Forge устанавливается отдельно от обычного Minecraft и добавляет профиль, который запускает игру с Forge. Названия окон установщика могут отличаться в зависимости от версии.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Открой официальный сайт <a href="https://files.minecraftforge.net/" rel="noopener noreferrer" target="_blank">Minecraft Forge</a> и выбери страницу той версии Minecraft, под которую собраны твои моды.</p></div>
+<div class="step"><span class="step-index">2</span><p>Скачай установщик с официальной страницы. Не загружай «готовые установщики Forge» с неизвестных сайтов и не запускай дополнительные файлы, которые сайт предлагает скачать.</p></div>
+<div class="step"><span class="step-index">3</span><p>Запусти установщик и выбери установку клиента — обычно пункт называется <strong>Install client</strong>. Проверь путь к папке игры и подтверди установку.</p></div>
+<div class="step"><span class="step-index">4</span><p>Открой Minecraft Launcher, выбери созданный профиль Forge и запусти игру один раз без дополнительных модов.</p></div>
+<div class="step"><span class="step-index">5</span><p>После успешного запуска закрой игру. В папке выбранного профиля появится или будет создана папка <code>mods</code>.</p></div>
+</div>
+<div class="note"><span class="callout-title">Если профиль не появился</span><p>Полностью закрой лаунчер и открой его снова, проверь выбранную папку игры и убедись, что установщик завершился без ошибки. Сторонние лаунчеры могут устанавливать Forge через собственное меню экземпляра.</p></div>
+</section><section class="guide-section" id="ru-fabric"><span class="section-number">РАЗДЕЛ 04</span><h2>Установка Fabric</h2>
+<p>Fabric состоит из Fabric Loader и, при необходимости, дополнительных библиотек — например, Fabric API. Сам Loader не заменяет все API, которые могут требоваться модам.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Перейди на официальный сайт <a href="https://fabricmc.net/use/installer/" rel="noopener noreferrer" target="_blank">Fabric Installer</a>.</p></div>
+<div class="step"><span class="step-index">2</span><p>Скачай установщик для своей операционной системы или универсальный файл, если он подходит твоей системе.</p></div>
+<div class="step"><span class="step-index">3</span><p>Открой установщик, выбери Minecraft Version и подходящую версию Loader. Для обычной игры оставь клиентскую установку и стандартный каталог, если используешь обычный Minecraft Launcher.</p></div>
+<div class="step"><span class="step-index">4</span><p>Нажми Install, дождись завершения, затем открой лаунчер и выбери профиль Fabric.</p></div>
+<div class="step"><span class="step-index">5</span><p>Запусти игру один раз. После этого открой папку <code>mods</code> выбранного профиля и добавь туда моды для Fabric.</p></div>
+</div>
+<p>Многие, но не все, моды Fabric требуют <strong>Fabric API</strong>. Если страница мода указывает его как обязательную зависимость, скачай подходящий файл Fabric API и положи его в ту же папку <code>mods</code>.</p>
+<div class="warning"><span class="callout-title">Fabric Loader и Fabric API — разные вещи</span><p>Loader создаёт среду загрузки модов. Fabric API — отдельная библиотека, которую используют многие моды. Установка одного Loader не означает, что Fabric API уже установлен.</p></div>
+</section><section class="guide-section" id="ru-neoforge"><span class="section-number">РАЗДЕЛ 05</span><h2>Установка NeoForge</h2>
+<p>NeoForge — самостоятельный загрузчик со своей совместимостью и набором версий. Не считай его взаимозаменяемым с Forge: скачивай только тот вариант, который указан на странице нужного мода.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Открой официальный сайт <a href="https://neoforged.net/" rel="noopener noreferrer" target="_blank">NeoForged</a> или его <a href="https://docs.neoforged.net/user/docs/client/" rel="noopener noreferrer" target="_blank">руководство по установке клиента</a>.</p></div>
+<div class="step"><span class="step-index">2</span><p>Выбери совместимую версию Minecraft и скачай установщик NeoForge с официального источника.</p></div>
+<div class="step"><span class="step-index">3</span><p>Закрой Minecraft Launcher, запусти файл установщика и проверь, что выбрана установка клиента — <strong>Install client</strong>.</p></div>
+<div class="step"><span class="step-index">4</span><p>После завершения открой лаунчер и создай или выбери профиль с нужной версией NeoForge.</p></div>
+<div class="step"><span class="step-index">5</span><p>Запусти игру один раз, закрой её и добавляй совместимые моды в папку <code>mods</code> именно этого профиля.</p></div>
+</div>
+<p>Для стороннего лаунчера следуй его инструкции: он может управлять отдельными папками игры и устанавливать NeoForge напрямую в экземпляр.</p>
+</section><section class="guide-section" id="ru-install"><span class="section-number">РАЗДЕЛ 06</span><h2>Как правильно установить моды</h2>
+<p>Когда загрузчик уже установлен и запускается без ошибок, можно добавлять моды. Самый простой способ — открыть папку нужного профиля и поместить туда файлы модов.</p>
+<h3>Где находится папка mods в Windows</h3>
+<p>Если используется стандартная папка Minecraft, нажми <strong>Win + R</strong>, введи:</p>
+<div class="mod-card"><code>%appdata%\.minecraft\mods</code><p>Если папки <code>mods</code> нет, создай её вручную после первого запуска установленного загрузчика.</p></div>
+<h3>Стандартные пути на других системах</h3>
+<div class="setting-list">
+<div class="setting-item"><strong>Windows</strong><span><code>%appdata%\.minecraft\mods</code></span></div>
+<div class="setting-item"><strong>macOS</strong><span><code>~/Library/Application Support/minecraft/mods</code></span></div>
+<div class="setting-item"><strong>Linux</strong><span><code>~/.minecraft/mods</code></span></div>
+<div class="setting-item"><strong>Сторонний лаунчер</strong><span>Открой настройки конкретного экземпляра и используй его собственную папку Mods.</span></div>
+</div>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Скачай файл мода <code>.jar</code> для нужной версии Minecraft и загрузчика.</p></div>
+<div class="step"><span class="step-index">2</span><p>Прочитай описание проекта и проверь раздел Dependencies / Relations: там указаны обязательные библиотеки и дополнительные требования.</p></div>
+<div class="step"><span class="step-index">3</span><p>Помести файл мода и все обязательные зависимости в папку <code>mods</code>. Не распаковывай JAR-архив, если автор не просит об этом отдельно.</p></div>
+<div class="step"><span class="step-index">4</span><p>Запусти профиль с тем же загрузчиком и версией Minecraft, для которых скачаны файлы.</p></div>
+<div class="step"><span class="step-index">5</span><p>Убедись, что игра загрузилась, а мод отображается в меню списка модов, если такой экран предусмотрен.</p></div>
+</div>
+<div class="warning"><span class="callout-title">Не запускай файлы модов двойным щелчком</span><p>Обычный мод — это библиотека для загрузчика, а не самостоятельная программа. Не запускай неизвестные EXE-файлы и не отключай антивирус ради установки мода.</p></div>
+</section><section class="guide-section" id="ru-dependencies"><span class="section-number">РАЗДЕЛ 07</span><h2>Зависимости и библиотеки</h2>
+<p>Некоторые моды используют общие библиотеки или API. Если обязательной зависимости нет, игра может сообщить о недостающем моде, неправильной версии или завершить запуск с ошибкой.</p>
+<ul>
+<li><strong>Required dependency</strong> — обязательная зависимость. Её нужно установить, иначе мод не запустится.</li>
+<li><strong>Optional dependency</strong> — необязательная библиотека или интеграция. Она добавляет функцию, но не всегда нужна для базовой работы.</li>
+<li><strong>Library / API mod</strong> — мод-библиотека, которую используют другие проекты.</li>
+<li><strong>Dependency version</strong> — важна не только сама библиотека, но и подходящая версия под Minecraft и загрузчик.</li>
+</ul>
+<p>Пример: многие моды для Fabric указывают Fabric API. Если мод требует конкретную версию API, не скачивай случайный файл только потому, что название совпадает.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Открой страницу конкретного файла мода, а не только главную страницу проекта.</p></div>
+<div class="step"><span class="step-index">2</span><p>Найди список обязательных зависимостей и прочитай, для каких версий они нужны.</p></div>
+<div class="step"><span class="step-index">3</span><p>Скачай зависимости с указанной автором страницы или официальной страницы проекта.</p></div>
+<div class="step"><span class="step-index">4</span><p>Положи зависимости в ту же папку <code>mods</code> и запускай игру после установки всего необходимого набора.</p></div>
+</div>
+<div class="note"><span class="callout-title">Не добавляй всё подряд</span><p>Необязательные зависимости и дополнительные библиотеки не нужно скачивать автоматически. Устанавливай только то, что требуется модам, которые ты действительно используешь.</p></div>
+</section><section class="guide-section" id="ru-compat"><span class="section-number">РАЗДЕЛ 08</span><h2>Проверь совместимость модов</h2>
+<p>Два мода могут поддерживать одну версию Minecraft, но при этом требовать разные загрузчики или конфликтовать друг с другом. Перед установкой проверяй каждый файл по нескольким пунктам.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Версия Minecraft</strong><span>Точная версия игры, указанная для файла. Не считай соседние версии автоматически совместимыми.</span></div>
+<div class="setting-item"><strong>Загрузчик</strong><span>Forge, Fabric, NeoForge или другой конкретный вариант. Они не взаимозаменяемы.</span></div>
+<div class="setting-item"><strong>Версия мода</strong><span>Выбирай выпуск, подходящий версии игры и загрузчика. Проверь дату и примечания автора.</span></div>
+<div class="setting-item"><strong>Зависимости</strong><span>Проверь библиотеки и минимальные версии, необходимые для запуска.</span></div>
+<div class="setting-item"><strong>Сторона установки</strong><span>Уточни, нужен ли мод только на клиенте, только на сервере или на обеих сторонах.</span></div>
+<div class="setting-item"><strong>Известные конфликты</strong><span>Прочитай описание, FAQ и сообщения об известных несовместимостях проекта.</span></div>
+</div>
+<h3>Можно ли смешивать Forge и Fabric?</h3>
+<p>Обычно нельзя просто положить моды Forge и Fabric в одну папку и запустить их вместе. Используй загрузчик, указанный автором каждого мода. Совместимые мосты или специальные решения существуют не для всех модов и версий, поэтому не рассчитывай на них без явного подтверждения.</p>
+<h3>Клиентские и серверные моды</h3>
+<p>Клиентские моды могут менять интерфейс, графику или управление и иногда не требуют установки на сервер. Моды, добавляющие блоки, предметы или игровые механики, часто должны быть установлены и на сервере, и у игроков — в одинаковых или совместимых версиях. Всегда сверяй требования проекта.</p>
+</section><section class="guide-section" id="ru-modpacks"><span class="section-number">РАЗДЕЛ 09</span><h2>Сборки модов и сторонние лаунчеры</h2>
+<p>Сборка (modpack) — это заранее подобранный набор модов, конфигураций и иногда дополнительных файлов. В отличие от простого набора JAR-файлов, сборка может требовать определённую версию загрузчика и собственные настройки.</p>
+<ul>
+<li>Скачивай сборку через страницу проекта или поддерживаемый лаунчер, на который ссылается автор.</li>
+<li>Проверь требования к версии Minecraft, загрузчику, Java и объёму оперативной памяти.</li>
+<li>Не добавляй поверх сборки случайные моды: они могут нарушить баланс или вызвать конфликт.</li>
+<li>Для отдельных экземпляров сторонний лаунчер обычно управляет собственной папкой игры и списка модов.</li>
+</ul>
+<h3>Почему удобно использовать отдельные экземпляры</h3>
+<p>Вместо одной общей папки можно создать отдельный профиль для ванильной игры, другой — для Fabric, третий — для большой сборки. Так файлы и конфигурации не перемешиваются, а тестирование становится проще.</p>
+<div class="success"><span class="callout-title">Хорошая практика</span><p>Сохраняй рабочую сборку отдельно. Перед добавлением новых модов скопируй папку экземпляра или используй функцию резервного копирования лаунчера.</p></div>
+</section><section class="guide-section" id="ru-errors"><span class="section-number">РАЗДЕЛ 10</span><h2>Решение проблем и вылетов</h2>
+<p>Если Minecraft перестал запускаться после установки модов, не удаляй весь мир и не переустанавливай всё сразу. Сначала выясни, что изменилось последним.</p>
+<h3>Игра пишет, что отсутствует зависимость</h3>
+<p>Найди мод, который указан в сообщении об ошибке. Установи именно требуемую библиотеку и подходящую версию. Проверь, что она предназначена для твоего загрузчика.</p>
+<h3>Сообщение о несовместимой версии</h3>
+<p>Сверь версию Minecraft, загрузчика и каждого недавно добавленного мода. Если для нужной версии файла нет, не пытайся заставить игру загрузить неподдерживаемый файл.</p>
+<h3>Вылет после добавления конкретного мода</h3>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Закрой игру и перемести последний добавленный мод из папки <code>mods</code> во временную папку на рабочем столе.</p></div>
+<div class="step"><span class="step-index">2</span><p>Запусти игру снова. Если проблема исчезла, вероятная причина связана с этим модом, его зависимостями или конфликтом.</p></div>
+<div class="step"><span class="step-index">3</span><p>Проверь страницу мода, версию загрузчика, обязательные библиотеки и известные проблемы.</p></div>
+<div class="step"><span class="step-index">4</span><p>Если ошибка осталась, проверь остальные последние изменения и тестируй моды небольшими группами.</p></div>
+</div>
+<h3>Где искать логи</h3>
+<p>В каталоге игры открой папку <code>logs</code> и файл <code>latest.log</code>. После аварийного завершения также проверь папку <code>crash-reports</code>, если отчёт был создан. В логах ищи названия модов, строки вроде <code>Caused by</code>, <code>Missing</code> или сообщение о несовместимости.</p>
+<div class="warning"><span class="callout-title">Не публикуй личные данные из логов</span><p>Перед отправкой лога в открытый чат проверь его содержимое: в нём могут встречаться имена пользователя Windows, локальные пути, адреса серверов и другая личная информация.</p></div>
+</section><section class="guide-section" id="ru-safety"><span class="section-number">РАЗДЕЛ 11</span><h2>Безопасность, обновления и резервные копии</h2>
+<p>Моды — это стороннее программное обеспечение. Загружай их только с проверенных площадок и официальных страниц авторов. Наличие файла на стороннем сайте само по себе не доказывает его безопасность.</p>
+<ul>
+<li>Используй <a href="https://modrinth.com/" rel="noopener noreferrer" target="_blank">Modrinth</a>, <a href="https://www.curseforge.com/minecraft" rel="noopener noreferrer" target="_blank">CurseForge</a> или официальный ресурс автора.</li>
+<li>Проверь имя автора, описание, версию игры, загрузчик и страницу файла.</li>
+<li>Не скачивай «мод» в виде неизвестного <code>.exe</code>, архиватора с рекламой или установщика, требующего отключить защиту.</li>
+<li>Не вводи пароль Microsoft или данные аккаунта на страницах загрузки модов.</li>
+<li>Перед обновлением сделай копию папки мира и, по возможности, конфигураций.</li>
+</ul>
+<h3>Как обновлять сборку</h3>
+<p>Не обновляй Minecraft, загрузчик и все моды одновременно на единственной копии игры. Сначала сделай резервную копию, затем обнови загрузчик или несколько связанных модов и проверь запуск. Если всё работает, продолжай небольшими шагами.</p>
+<div class="note"><span class="callout-title">Совместимость может измениться после обновления</span><p>Мод, работавший на одной версии Minecraft, может не поддерживать следующую. Устанавливай обновление только после проверки страницы проекта и совместимости зависимостей.</p></div>
+</section><section class="guide-section" id="ru-faq"><span class="section-number">РАЗДЕЛ 12</span><h2>Частые вопросы</h2>
+<div class="faq-list">
+<details><summary>Можно ли установить Forge и Fabric одновременно?</summary><p>Они могут быть установлены в разных профилях, но обычно не запускаются вместе в одном экземпляре. Выбирай загрузчик под конкретную сборку модов.</p></details>
+<details><summary>Обязательно ли устанавливать Fabric API?</summary><p>Нет, не для каждого мода. Установи Fabric API, если он указан как обязательная зависимость нужного мода.</p></details>
+<details><summary>Куда класть моды?</summary><p>В папку <code>mods</code> активного игрового профиля. У стороннего лаунчера это может быть отдельная папка экземпляра, а не стандартный каталог .minecraft.</p></details>
+<details><summary>Можно ли использовать моды на сервере?</summary><p>Зависит от типа мода. Часть клиентских модов нужна только игроку, а моды с новыми блоками, предметами или механиками часто требуют соответствующей установки на сервере и клиентах.</p></details>
+<details><summary>Почему мод не отображается в игре?</summary><p>Проверь, что выбрал правильный профиль, папку mods, загрузчик и версию Minecraft. Также убедись, что файл не остался внутри вложенной папки или архива.</p></details>
+<details><summary>Что делать, если после установки модов мир не открывается?</summary><p>Не удаляй оригинальный мир. Восстанови резервную копию или временно убери последние добавленные моды, затем проверь совместимость и лог ошибки.</p></details>
+</div>
+</section><section class="guide-section" id="ru-check"><span class="section-number">РАЗДЕЛ 13</span><h2>Краткий чек-лист</h2>
+<p>Перед запуском сборки проверь каждый пункт:</p>
+<div class="final-checklist">
+<div class="check-item">✓ Выбрана правильная версия Minecraft</div>
+<div class="check-item">✓ Установлен нужный загрузчик</div>
+<div class="check-item">✓ Каждый мод подходит этому загрузчику</div>
+<div class="check-item">✓ Проверены обязательные зависимости</div>
+<div class="check-item">✓ Файлы помещены в папку mods нужного профиля</div>
+<div class="check-item">✓ Нет дубликатов разных версий одного мода</div>
+<div class="check-item">✓ Мир и конфигурации сохранены в резервной копии</div>
+<div class="check-item">✓ Игра запущена и проверена после изменений</div>
+</div>
+<div class="success"><span class="callout-title">Главный совет</span><p>Устанавливай моды постепенно, проверяй совместимость и сохраняй копию мира. Если появится ошибка, меняй по одному фактору и изучай лог — так гораздо проще найти причину.</p></div>
+<h3>Официальные источники и страницы проектов</h3>
+<div class="sources">
+<a href="https://files.minecraftforge.net/" rel="noopener noreferrer" target="_blank">Minecraft Forge ↗</a>
+<a href="https://fabricmc.net/use/installer/" rel="noopener noreferrer" target="_blank">Fabric Installer ↗</a>
+<a href="https://docs.fabricmc.net/players/installing-mods" rel="noopener noreferrer" target="_blank">Fabric: установка модов ↗</a>
+<a href="https://neoforged.net/" rel="noopener noreferrer" target="_blank">NeoForge ↗</a>
+<a href="https://docs.neoforged.net/user/docs/client/" rel="noopener noreferrer" target="_blank">NeoForge: установка клиента ↗</a>
+<a href="https://modrinth.com/" rel="noopener noreferrer" target="_blank">Modrinth ↗</a>
+<a href="https://www.curseforge.com/minecraft" rel="noopener noreferrer" target="_blank">CurseForge ↗</a>
+</div>
+</section>
+</div><div hidden="True" id="en-content" lang="en">
+<div class="eyebrow">Minecraft Java Edition · Mods and Modding</div>
+<h1>How to Install and Configure Minecraft Mods</h1>
+<p class="lead">A practical guide to Minecraft Java Edition mods. Learn about Forge, Fabric and NeoForge, installing mod files and dependencies, checking modpack compatibility, and troubleshooting crashes.</p>
+<div class="meta-row"><span><i class="dot"></i> For Minecraft Java Edition</span><span><i class="dot"></i> Beginner-friendly</span><span><i class="dot"></i> Windows and other operating systems</span></div>
+<div class="intro-card"><div><h2>What you will learn</h2><p>How to choose the right loader, install mods and libraries, check compatibility, and fix common issues.</p></div><div><h2>What you need</h2><p>Minecraft Java Edition, access to the game folder, a few minutes for setup, and backups of important worlds.</p></div></div>
+<nav aria-label="Guide contents" class="toc-card"><div class="toc-heading">Contents</div><ol class="toc-list"><li><a href="#en-what">1. What Are Mods and Mod Loaders?</a></li><li><a href="#en-before">2. Prepare Minecraft Before Installing Mods</a></li><li><a href="#en-forge">3. Installing Forge</a></li><li><a href="#en-fabric">4. Installing Fabric</a></li><li><a href="#en-neoforge">5. Installing NeoForge</a></li><li><a href="#en-install">6. How to Install Mods Correctly</a></li><li><a href="#en-dependencies">7. Dependencies and Libraries</a></li><li><a href="#en-compat">8. Check Mod Compatibility</a></li><li><a href="#en-modpacks">9. Modpacks and Third-Party Launchers</a></li><li><a href="#en-errors">10. Troubleshooting and Crashes</a></li><li><a href="#en-safety">11. Safety, Updates, and Backups</a></li><li><a href="#en-faq">12. Frequently Asked Questions</a></li><li><a href="#en-check">13. Quick Checklist</a></li></ol></nav>
+<section class="guide-section" id="en-what"><span class="section-number">SECTION 01</span><h2>What Are Mods and Mod Loaders?</h2>
+<p>A <strong>mod</strong> is a file that changes or expands Minecraft. It can add items, blocks, mechanics, interface features, performance improvements, or other gameplay changes. Most Java Edition mods are distributed as <code>.jar</code> files.</p>
+<p>To load mods, Minecraft usually needs a <strong>mod loader</strong>, such as Forge, Fabric, or NeoForge. These are different platforms: a mod built for one loader usually cannot simply be placed into another loader's mods folder.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Forge</strong><span>A long-running loader with its own mod ecosystem. Always check that the file is specifically for Forge and your Minecraft version.</span></div>
+<div class="setting-item"><strong>Fabric</strong><span>A lightweight, modular loader. Many mods use Fabric API as a separate dependency.</span></div>
+<div class="setting-item"><strong>NeoForge</strong><span>A separate project and ecosystem based on Forge. Its supported versions and mod compatibility are not identical to Forge.</span></div>
+<div class="setting-item"><strong>Quilt and others</strong><span>Other options exist. Use them only when the mods you want explicitly support that loader.</span></div>
+</div>
+<div class="note"><span class="callout-title">The key compatibility rule</span><p>Check three things together: the exact Minecraft version, the mod loader, and the mod version. Matching only the Minecraft version is not enough.</p></div>
+</section><section class="guide-section" id="en-before"><span class="section-number">SECTION 02</span><h2>Prepare Minecraft Before Installing Mods</h2>
+<p>Before installing mods, create a separate game profile or instance. This keeps modifications away from your regular Minecraft installation and makes troubleshooting easier.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Launch the vanilla Minecraft version you plan to use at least once and make sure it works without mods.</p></div>
+<div class="step"><span class="step-index">2</span><p>Write down the exact game version shown in your launcher. Do not rely only on a modpack name or screenshot.</p></div>
+<div class="step"><span class="step-index">3</span><p>Copy important worlds from the <code>saves</code> folder to a safe location. Use a copy of a world for testing.</p></div>
+<div class="step"><span class="step-index">4</span><p>Decide which mods you need and check which loader each one requires.</p></div>
+</div>
+<p>Do not install dozens of files at once. First test the loader by itself, then add mods in small groups so that problems are easier to identify.</p>
+<div class="warning"><span class="callout-title">Do not update your only copy of a world</span><p>A new mod or Minecraft version can change world data. Make a separate backup before updating the loader, mods, or modpack.</p></div>
+</section><section class="guide-section" id="en-forge"><span class="section-number">SECTION 03</span><h2>Installing Forge</h2>
+<p>Forge is installed separately from vanilla Minecraft and adds a profile that launches the game with Forge. Installer labels may differ between versions.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Open the official <a href="https://files.minecraftforge.net/" rel="noopener noreferrer" target="_blank">Minecraft Forge website</a> and select the Minecraft version required by your mods.</p></div>
+<div class="step"><span class="step-index">2</span><p>Download the installer from the official page. Avoid repackaged installers from unknown websites and do not run extra files offered by download pages.</p></div>
+<div class="step"><span class="step-index">3</span><p>Run the installer and choose the client installation option, usually called <strong>Install client</strong>. Check the game directory and confirm.</p></div>
+<div class="step"><span class="step-index">4</span><p>Open Minecraft Launcher, select the newly created Forge profile, and launch the game once without additional mods.</p></div>
+<div class="step"><span class="step-index">5</span><p>After a successful launch, close the game. The <code>mods</code> folder will be available or created in the selected game directory.</p></div>
+</div>
+<div class="note"><span class="callout-title">If the profile does not appear</span><p>Close and reopen the launcher, check the selected game directory, and make sure the installer completed successfully. Third-party launchers may install Forge through their own instance settings.</p></div>
+</section><section class="guide-section" id="en-fabric"><span class="section-number">SECTION 04</span><h2>Installing Fabric</h2>
+<p>Fabric consists of Fabric Loader and, when needed, additional libraries such as Fabric API. Loader alone does not provide every API that mods may require.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Visit the official <a href="https://fabricmc.net/use/installer/" rel="noopener noreferrer" target="_blank">Fabric Installer page</a>.</p></div>
+<div class="step"><span class="step-index">2</span><p>Download the installer for your operating system or the universal file if it suits your system.</p></div>
+<div class="step"><span class="step-index">3</span><p>Open the installer, select the Minecraft version and a suitable Loader version. For a standard Minecraft Launcher setup, use the client installation and default game directory unless you have a reason to change them.</p></div>
+<div class="step"><span class="step-index">4</span><p>Click Install, wait for it to finish, then open the launcher and select the Fabric profile.</p></div>
+<div class="step"><span class="step-index">5</span><p>Launch the game once. Then open the selected profile's <code>mods</code> folder and add Fabric-compatible mods.</p></div>
+</div>
+<p>Many, but not all, Fabric mods require <strong>Fabric API</strong>. When a mod page lists it as a required dependency, download the matching Fabric API file and place it in the same <code>mods</code> folder.</p>
+<div class="warning"><span class="callout-title">Fabric Loader and Fabric API are different</span><p>Loader provides the mod-loading environment. Fabric API is a separate library used by many mods. Installing Loader does not mean Fabric API is already installed.</p></div>
+</section><section class="guide-section" id="en-neoforge"><span class="section-number">SECTION 05</span><h2>Installing NeoForge</h2>
+<p>NeoForge is a separate loader with its own compatibility and supported versions. Do not treat it as interchangeable with Forge: download only the loader specified by the mod author.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Open the official <a href="https://neoforged.net/" rel="noopener noreferrer" target="_blank">NeoForged website</a> or its <a href="https://docs.neoforged.net/user/docs/client/" rel="noopener noreferrer" target="_blank">client installation guide</a>.</p></div>
+<div class="step"><span class="step-index">2</span><p>Select a compatible Minecraft version and download the NeoForge installer from an official source.</p></div>
+<div class="step"><span class="step-index">3</span><p>Close Minecraft Launcher, run the installer, and make sure <strong>Install client</strong> is selected.</p></div>
+<div class="step"><span class="step-index">4</span><p>After installation, open the launcher and create or select a profile with the required NeoForge version.</p></div>
+<div class="step"><span class="step-index">5</span><p>Launch the game once, close it, and add compatible mods to the <code>mods</code> folder of that profile.</p></div>
+</div>
+<p>For a third-party launcher, follow its own instructions. It may manage separate game folders and install NeoForge directly into an instance.</p>
+</section><section class="guide-section" id="en-install"><span class="section-number">SECTION 06</span><h2>How to Install Mods Correctly</h2>
+<p>Once the loader is installed and starts without errors, you can add mods. The usual method is to open the selected profile's game directory and place the mod files there.</p>
+<h3>Finding the mods folder on Windows</h3>
+<p>If you use the standard Minecraft directory, press <strong>Win + R</strong> and enter:</p>
+<div class="mod-card"><code>%appdata%\.minecraft\mods</code><p>If the <code>mods</code> folder does not exist, create it manually after launching the installed loader once.</p></div>
+<h3>Default paths on other systems</h3>
+<div class="setting-list">
+<div class="setting-item"><strong>Windows</strong><span><code>%appdata%\.minecraft\mods</code></span></div>
+<div class="setting-item"><strong>macOS</strong><span><code>~/Library/Application Support/minecraft/mods</code></span></div>
+<div class="setting-item"><strong>Linux</strong><span><code>~/.minecraft/mods</code></span></div>
+<div class="setting-item"><strong>Third-party launcher</strong><span>Open the settings of the specific instance and use its own Mods folder.</span></div>
+</div>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Download the mod's <code>.jar</code> file for your Minecraft version and loader.</p></div>
+<div class="step"><span class="step-index">2</span><p>Read the project page and check Dependencies / Relations for required libraries and extra requirements.</p></div>
+<div class="step"><span class="step-index">3</span><p>Place the mod and all required dependencies into the <code>mods</code> folder. Do not extract a JAR archive unless the author explicitly tells you to.</p></div>
+<div class="step"><span class="step-index">4</span><p>Launch the profile with the same loader and Minecraft version used for the downloaded files.</p></div>
+<div class="step"><span class="step-index">5</span><p>Make sure the game loads and, if the loader provides a mod list, check that the mod appears there.</p></div>
+</div>
+<div class="warning"><span class="callout-title">Do not run mod files by double-clicking them</span><p>A regular mod is a library loaded by the mod loader, not a standalone application. Do not run unknown EXE files or disable antivirus protection to install a mod.</p></div>
+</section><section class="guide-section" id="en-dependencies"><span class="section-number">SECTION 07</span><h2>Dependencies and Libraries</h2>
+<p>Some mods rely on shared libraries or APIs. If a required dependency is missing, the game may report a missing mod, an incorrect version, or fail to launch.</p>
+<ul>
+<li><strong>Required dependency</strong> — a library that must be installed for the mod to work.</li>
+<li><strong>Optional dependency</strong> — an optional library or integration that adds a feature but may not be needed for basic operation.</li>
+<li><strong>Library / API mod</strong> — a shared component used by other projects.</li>
+<li><strong>Dependency version</strong> — the library itself and its version must match the Minecraft version and loader requirements.</li>
+</ul>
+<p>For example, many Fabric mods list Fabric API. If a mod requires a specific API version, do not download a random file just because the name matches.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Open the page for the specific mod file, not only the project's main page.</p></div>
+<div class="step"><span class="step-index">2</span><p>Find the required dependencies list and read which game and loader versions they support.</p></div>
+<div class="step"><span class="step-index">3</span><p>Download dependencies from the page linked by the author or the dependency project's official page.</p></div>
+<div class="step"><span class="step-index">4</span><p>Put the dependencies in the same <code>mods</code> folder and launch the game after the required set is installed.</p></div>
+</div>
+<div class="note"><span class="callout-title">Do not install everything you see</span><p>Optional dependencies and extra libraries are not automatically required. Install only what the mods you actually use need.</p></div>
+</section><section class="guide-section" id="en-compat"><span class="section-number">SECTION 08</span><h2>Check Mod Compatibility</h2>
+<p>Two mods may support the same Minecraft version but still require different loaders or conflict with each other. Check each file against several requirements before installing it.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Minecraft version</strong><span>The exact game version listed for the file. Do not assume nearby versions are automatically compatible.</span></div>
+<div class="setting-item"><strong>Mod loader</strong><span>The specific Forge, Fabric, NeoForge, or other loader. They are not interchangeable.</span></div>
+<div class="setting-item"><strong>Mod version</strong><span>Choose a release that matches the game and loader. Check its date and author notes.</span></div>
+<div class="setting-item"><strong>Dependencies</strong><span>Check required libraries and their minimum versions.</span></div>
+<div class="setting-item"><strong>Install side</strong><span>Find out whether the mod is client-only, server-only, or required on both sides.</span></div>
+<div class="setting-item"><strong>Known conflicts</strong><span>Read the project description, FAQ, and known incompatibilities.</span></div>
+</div>
+<h3>Can Forge and Fabric mods be mixed?</h3>
+<p>Usually, you cannot simply place Forge and Fabric mods in the same folder and run them together. Use the loader specified by each mod's author. Compatibility bridges or special solutions do not exist for every mod and version, so do not rely on them without explicit confirmation.</p>
+<h3>Client-side and server-side mods</h3>
+<p>Client-side mods may change the interface, graphics, or controls and sometimes do not need to be installed on the server. Mods that add blocks, items, or gameplay mechanics often need to be installed on the server and on players' clients in matching or compatible versions. Always check the project's requirements.</p>
+</section><section class="guide-section" id="en-modpacks"><span class="section-number">SECTION 09</span><h2>Modpacks and Third-Party Launchers</h2>
+<p>A modpack is a preselected collection of mods, configuration files, and sometimes additional files. Unlike a simple collection of JAR files, a modpack may require a specific loader version and its own settings.</p>
+<ul>
+<li>Download a modpack through its project page or a supported launcher linked by the author.</li>
+<li>Check its Minecraft version, loader, Java, and memory requirements.</li>
+<li>Do not add random mods on top of a modpack: they may break its balance or cause conflicts.</li>
+<li>Third-party launchers usually manage a separate game directory and mod list for each instance.</li>
+</ul>
+<h3>Why separate instances are useful</h3>
+<p>Instead of using one shared folder, create one profile for vanilla Minecraft, another for Fabric, and another for a large modpack. This keeps files and configurations separate and makes testing easier.</p>
+<div class="success"><span class="callout-title">Good practice</span><p>Keep a working copy of your modpack. Before adding new mods, back up the instance folder or use your launcher's backup feature.</p></div>
+</section><section class="guide-section" id="en-errors"><span class="section-number">SECTION 10</span><h2>Troubleshooting and Crashes</h2>
+<p>If Minecraft stops launching after installing mods, do not delete your world or reinstall everything immediately. First, identify what changed most recently.</p>
+<h3>The game says a dependency is missing</h3>
+<p>Find the mod named in the error message. Install the exact required library and a compatible version. Make sure it is intended for your loader.</p>
+<h3>The game reports an incompatible version</h3>
+<p>Check the Minecraft version, loader version, and every recently added mod. If there is no file for your version, do not try to force an unsupported file to load.</p>
+<h3>The game crashes after adding a specific mod</h3>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Close the game and move the last mod you added out of the <code>mods</code> folder into a temporary folder on your desktop.</p></div>
+<div class="step"><span class="step-index">2</span><p>Launch the game again. If the problem disappears, the cause may be that mod, one of its dependencies, or a conflict.</p></div>
+<div class="step"><span class="step-index">3</span><p>Check the mod page, loader version, required libraries, and known issues.</p></div>
+<div class="step"><span class="step-index">4</span><p>If the error remains, check other recent changes and test mods in small groups.</p></div>
+</div>
+<h3>Where to find logs</h3>
+<p>Open the game's <code>logs</code> folder and check <code>latest.log</code>. After a crash, also check <code>crash-reports</code> if a report was created. Search the log for mod names, lines such as <code>Caused by</code>, <code>Missing</code>, or compatibility messages.</p>
+<div class="warning"><span class="callout-title">Do not share personal information from logs</span><p>Before posting a log publicly, review it. It may contain your Windows username, local file paths, server addresses, or other personal information.</p></div>
+</section><section class="guide-section" id="en-safety"><span class="section-number">SECTION 11</span><h2>Safety, Updates, and Backups</h2>
+<p>Minecraft mods are third-party software. Download them only from trusted platforms and authors' official pages. A file appearing on an unfamiliar website does not prove that it is safe.</p>
+<ul>
+<li>Use <a href="https://modrinth.com/" rel="noopener noreferrer" target="_blank">Modrinth</a>, <a href="https://www.curseforge.com/minecraft" rel="noopener noreferrer" target="_blank">CurseForge</a>, or the author's official source.</li>
+<li>Check the author, description, game version, loader, and file page.</li>
+<li>Do not download a supposed mod as an unknown <code>.exe</code>, an ad-filled archive tool, or an installer that asks you to disable protection.</li>
+<li>Never enter your Microsoft password or account details on mod download pages.</li>
+<li>Back up your world folder and, where possible, configuration files before updating.</li>
+</ul>
+<h3>How to update a modpack</h3>
+<p>Do not update Minecraft, the loader, and every mod at once on your only game copy. Make a backup first, then update the loader or a few related mods and test the game. If everything works, continue in small steps.</p>
+<div class="note"><span class="callout-title">Compatibility can change after an update</span><p>A mod that worked on one Minecraft version may not support the next one. Install an update only after checking the project page and dependency compatibility.</p></div>
+</section><section class="guide-section" id="en-faq"><span class="section-number">SECTION 12</span><h2>Frequently Asked Questions</h2>
+<div class="faq-list">
+<details><summary>Can I install Forge and Fabric at the same time?</summary><p>They can be installed in separate profiles, but they usually cannot run together in one instance. Choose the loader required by your modpack.</p></details>
+<details><summary>Do I always need Fabric API?</summary><p>No, not for every mod. Install Fabric API when a mod lists it as a required dependency.</p></details>
+<details><summary>Where do I put mods?</summary><p>In the <code>mods</code> folder of the active game profile. A third-party launcher may use a separate instance folder rather than the standard .minecraft directory.</p></details>
+<details><summary>Can I use mods on a server?</summary><p>It depends on the mod. Some client-side mods are only needed by the player, while mods that add blocks, items, or mechanics often require matching installation on the server and clients.</p></details>
+<details><summary>Why does a mod not appear in the game?</summary><p>Check that you selected the correct profile, mods folder, loader, and Minecraft version. Also make sure the file is not inside a nested folder or archive.</p></details>
+<details><summary>What if my world will not open after installing mods?</summary><p>Do not delete the original world. Restore a backup or temporarily remove recently added mods, then check compatibility and the error log.</p></details>
+</div>
+</section><section class="guide-section" id="en-check"><span class="section-number">SECTION 13</span><h2>Quick Checklist</h2>
+<p>Before launching your modded instance, check each item:</p>
+<div class="final-checklist">
+<div class="check-item">✓ The correct Minecraft version is selected</div>
+<div class="check-item">✓ The required mod loader is installed</div>
+<div class="check-item">✓ Every mod matches that loader</div>
+<div class="check-item">✓ Required dependencies are installed</div>
+<div class="check-item">✓ Files are in the active profile's mods folder</div>
+<div class="check-item">✓ No duplicate versions of the same mod</div>
+<div class="check-item">✓ Worlds and configs have a backup</div>
+<div class="check-item">✓ The game was tested after the changes</div>
+</div>
+<div class="success"><span class="callout-title">The most important advice</span><p>Install mods gradually, check compatibility, and keep a backup of your world. When an error appears, change one thing at a time and inspect the log — this makes finding the cause much easier.</p></div>
+<h3>Official sources and project pages</h3>
+<div class="sources">
+<a href="https://files.minecraftforge.net/" rel="noopener noreferrer" target="_blank">Minecraft Forge ↗</a>
+<a href="https://fabricmc.net/use/installer/" rel="noopener noreferrer" target="_blank">Fabric Installer ↗</a>
+<a href="https://docs.fabricmc.net/players/installing-mods" rel="noopener noreferrer" target="_blank">Fabric: Installing Mods ↗</a>
+<a href="https://neoforged.net/" rel="noopener noreferrer" target="_blank">NeoForge ↗</a>
+<a href="https://docs.neoforged.net/user/docs/client/" rel="noopener noreferrer" target="_blank">NeoForge: Client Setup ↗</a>
+<a href="https://modrinth.com/" rel="noopener noreferrer" target="_blank">Modrinth ↗</a>
+<a href="https://www.curseforge.com/minecraft" rel="noopener noreferrer" target="_blank">CurseForge ↗</a>
+</div>
+</section>
+</div></main>
+<footer class="site-footer">
+<span id="footer-ru">Minecraft Guides · Гайды по Minecraft Java Edition</span>
+<span hidden="" id="footer-en">Minecraft Guides · Minecraft Java Edition guides</span>
+</footer>
+<script>
+    const ruButton = document.getElementById('ru-button');
+    const enButton = document.getElementById('en-button');
+    const ruContent = document.getElementById('ru-content');
+    const enContent = document.getElementById('en-content');
+    const footerRu = document.getElementById('footer-ru');
+    const footerEn = document.getElementById('footer-en');
+
+    function setLanguage(language) {
+      const isRussian = language === 'ru';
+      ruContent.hidden = !isRussian;
+      enContent.hidden = isRussian;
+      footerRu.hidden = !isRussian;
+      footerEn.hidden = isRussian;
+      ruButton.setAttribute('aria-pressed', String(isRussian));
+      enButton.setAttribute('aria-pressed', String(!isRussian));
+      document.documentElement.lang = language;
+      document.title = isRussian
+        ? 'Как установить моды в Minecraft — Minecraft Guides'
+        : 'How to Install Minecraft Mods — Minecraft Guides';
+      try {
+        localStorage.setItem('minecraft-guides-language', language);
+      } catch (error) {
+      }
+    }
+
+    ruButton.addEventListener('click', () => setLanguage('ru'));
+    enButton.addEventListener('click', () => setLanguage('en'));
+
+    try {
+      const savedLanguage = localStorage.getItem('minecraft-guides-language');
+      if (savedLanguage === 'en' || savedLanguage === 'ru') {
+        setLanguage(savedLanguage);
+      }
+    } catch (error) {
+      setLanguage('ru');
+    }
+</script>
+</body>
+</html>
