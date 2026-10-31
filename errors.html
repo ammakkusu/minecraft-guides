@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="Подробный гайд по исправлению ошибок Minecraft Java Edition: проблемы запуска, Java, памяти, модов, вылеты, crash-отчёты и подключение." name="description"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>Как исправить ошибки Minecraft Java — Minecraft Guides</title>
+<style>
+    :root {
+      color-scheme: light;
+      --page: #f7f8f7;
+      --surface: #ffffff;
+      --surface-soft: #f0f4f0;
+      --text: #202720;
+      --muted: #657066;
+      --border: #e1e7e1;
+      --accent: #258348;
+      --accent-dark: #176536;
+      --accent-soft: #e8f5eb;
+      --shadow: 0 8px 28px rgba(28, 49, 32, 0.055);
+      --radius: 16px;
+      --content: 900px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 24px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid rgba(37, 131, 72, 0.35);
+      outline-offset: 3px;
+    }
+
+    .site-header {
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      width: min(var(--content), calc(100% - 40px));
+      min-height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .language-switch {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .language-switch button {
+      min-width: 48px;
+      min-height: 38px;
+      padding: 7px 12px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .language-switch button[aria-pressed="true"] {
+      background: var(--surface);
+      color: var(--accent-dark);
+      box-shadow: 0 1px 4px rgba(28, 49, 32, 0.12);
+    }
+
+    .page {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 58px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 11px;
+      background: var(--accent-soft);
+      border: 1px solid #d6eadb;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--text);
+      line-height: 1.25;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 20px 0 16px;
+      font-size: clamp(2.15rem, 6vw, 3.65rem);
+      font-weight: 780;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.45rem, 3.5vw, 1.9rem);
+      font-weight: 740;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.12rem;
+      font-weight: 720;
+    }
+
+    p {
+      margin: 10px 0 14px;
+    }
+
+    .lead {
+      max-width: 740px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1.02rem, 2vw, 1.16rem);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meta-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .intro-card,
+    .toc-card,
+    .content-card,
+    .note,
+    .warning,
+    .success {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 34px;
+      padding: 24px;
+    }
+
+    .intro-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .toc-card {
+      margin-top: 22px;
+      padding: 24px;
+    }
+
+    .toc-heading {
+      margin-bottom: 14px;
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent-dark);
+    }
+
+    .guide-section {
+      margin-top: 26px;
+      padding: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    .section-number {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+    }
+
+    .guide-section > p,
+    .guide-section li {
+      color: var(--muted);
+    }
+
+    .guide-section ul,
+    .guide-section ol {
+      margin: 12px 0 18px;
+      padding-left: 23px;
+    }
+
+    .guide-section li {
+      margin: 7px 0;
+      padding-left: 3px;
+    }
+
+    .setting-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .setting-item {
+      padding: 14px 15px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .setting-item strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .setting-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .note,
+    .warning,
+    .success {
+      margin: 18px 0;
+      padding: 17px 19px;
+      box-shadow: none;
+    }
+
+    .note {
+      background: #f3f7ff;
+      border-color: #dce7fa;
+    }
+
+    .warning {
+      background: #fff8ed;
+      border-color: #f2e2c5;
+    }
+
+    .success {
+      background: var(--accent-soft);
+      border-color: #d6eadb;
+    }
+
+    .callout-title {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .note p,
+    .warning p,
+    .success p {
+      margin: 0;
+      color: #536052;
+      font-size: 14px;
+    }
+
+    .mod-card {
+      margin: 14px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .mod-card h3 {
+      margin: 0 0 6px;
+    }
+
+    .mod-card p {
+      margin: 0 0 8px;
+      color: var(--muted);
+    }
+
+    .mod-link {
+      display: inline-block;
+      margin-top: 3px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .steps {
+      counter-reset: step;
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+
+    .step-index {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .step p {
+      margin: 2px 0 0;
+      color: var(--muted);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    details {
+      padding: 15px 17px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    summary {
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details p {
+      margin: 12px 0 0;
+      color: var(--muted);
+    }
+
+    .sources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 15px;
+    }
+
+    .sources a {
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .final-checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .check-item {
+      padding: 12px 14px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .site-footer {
+      padding: 25px 20px 35px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      .header-inner,
+      .page {
+        width: min(100% - 32px, var(--content));
+      }
+
+      .page {
+        padding-top: 38px;
+        padding-bottom: 56px;
+      }
+
+      .intro-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .guide-section {
+        padding: 23px 20px;
+      }
+
+      .toc-card {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .header-inner {
+        min-height: 68px;
+        gap: 10px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .language-switch button {
+        min-width: 42px;
+        min-height: 36px;
+        padding: 6px 9px;
+      }
+
+      .page {
+        width: calc(100% - 28px);
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 10vw, 2.6rem);
+      }
+
+      .toc-list,
+      .setting-list,
+      .final-checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .guide-section {
+        padding: 21px 17px;
+        border-radius: 13px;
+      }
+
+      .meta-row {
+        gap: 8px 13px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+<div class="header-inner">
+<a aria-label="Minecraft Guides" class="brand" href="../index.html">Minecraft <span>Guides</span></a>
+<div aria-label="Language selection" class="language-switch" role="group">
+<button aria-pressed="true" id="ru-button" lang="ru" type="button">RU</button>
+<button aria-pressed="false" id="en-button" lang="en" type="button">EN</button>
+</div>
+</div>
+</header>
+<main class="page">
+<div id="ru-content" lang="ru"><div class="eyebrow">Minecraft Java Edition · Ошибки и неисправности</div>
+<h1>Как исправить ошибки Minecraft Java</h1>
+<p class="lead">Практическое руководство по поиску и устранению распространённых проблем Minecraft Java Edition. Разберём, что проверить, где найти журналы игры и как определить причину вылета, не удаляя миры и не переустанавливая всё подряд.</p>
+<div class="meta-row"><span><i class="dot"></i>Для Minecraft Java Edition</span><span><i class="dot"></i>Пошаговая диагностика</span><span><i class="dot"></i>Для Windows и других ОС</span></div>
+<div class="intro-card"><div><h2>Что ты узнаешь</h2><p>Как последовательно проверить лаунчер, установку игры, Java, память, драйверы и моды, а также найти crash-report и latest.log для точной диагностики.</p></div><div><h2>Что понадобится</h2><p>Доступ к папке игры, несколько минут на проверки и резервная копия важных миров. Большинство действий можно выполнить без сторонних программ.</p></div></div>
+<nav aria-label="Содержание гайда" class="toc-card"><div class="toc-heading">Содержание</div><ol class="toc-list">
+<li><a href="#ru-error-basics">1. С чего начать диагностику</a></li>
+<li><a href="#ru-launcher">2. Лаунчер не открывается или не запускает игру</a></li>
+<li><a href="#ru-install">3. Ошибки загрузки и установки</a></li>
+<li><a href="#ru-java">4. Проблемы Java и Runtime</a></li>
+<li><a href="#ru-mods">5. Вылеты из-за модов и загрузчиков</a></li>
+<li><a href="#ru-memory">6. Ошибки памяти и зависания</a></li>
+<li><a href="#ru-graphics">7. Графика, OpenGL и драйверы</a></li>
+<li><a href="#ru-logs">8. Где найти логи и crash-report</a></li>
+<li><a href="#ru-codes">9. Как понимать коды ошибок</a></li>
+<li><a href="#ru-worlds">10. Ошибки при загрузке мира</a></li>
+<li><a href="#ru-network">11. Проблемы входа и подключения</a></li>
+<li><a href="#ru-faq">12. Частые вопросы</a></li>
+<li><a href="#ru-check">13. Итоговый чек-лист</a></li>
+</ol></nav>
+<section class="guide-section" id="ru-error-basics"><span class="section-number">РАЗДЕЛ 01</span><h2>С чего начать диагностику</h2>
+<p>Не начинай с удаления папки .minecraft или переустановки Windows. Сначала зафиксируй, что именно происходит: лаунчер не запускается, игра закрывается до главного меню, вылетает при входе в мир или отключается только на сервере.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Лаунчер не открывается</strong><span>Проверь обновления лаунчера, Microsoft Store/Xbox app (если используешь эту версию), вход в аккаунт и сообщения об ошибке самого лаунчера.</span></div>
+<div class="setting-item"><strong>Игра не запускается</strong><span>Проверь выбранную установку, версию Minecraft, аргументы запуска, Java Runtime и наличие модификаций.</span></div>
+<div class="setting-item"><strong>Игра вылетает после запуска</strong><span>Запиши момент вылета и открой latest.log или последний файл в crash-reports. Не делай вывод только по Exit Code.</span></div>
+<div class="setting-item"><strong>Проблема только в одном мире</strong><span>Сделай копию мира и проверь, запускается ли другой новый мир. Это поможет отделить проблему мира от проблемы всей игры.</span></div>
+<div class="setting-item"><strong>Проблема только на сервере</strong><span>Проверь сообщение отключения, доступность сервера и совпадение версии клиента. Высокий Ping и серверные сбои разбираются отдельно.</span></div>
+</div>
+<div class="note"><span class="callout-title">Главное правило</span><p>Меняй по одному параметру за раз и повторяй запуск. Так будет понятно, какое действие помогло или вызвало новую ошибку. Перед серьёзными изменениями скопируй папку <code>saves</code>.</p></div>
+</section>
+<section class="guide-section" id="ru-launcher"><span class="section-number">РАЗДЕЛ 02</span><h2>Лаунчер не открывается или не запускает игру</h2>
+<p>Если Minecraft Launcher запускается, но после нажатия «Играть» ничего не происходит или окно игры сразу закрывается, проверь настройки конкретной установки.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Полностью закрой игру и лаунчер. Проверь в диспетчере задач, что не осталось зависшего процесса Minecraft или Launcher, затем открой лаунчер заново.</p></div>
+<div class="step"><span class="step-index">2</span><p>Открой вкладку <strong>Установки (Installations)</strong> и проверь выбранную версию. Убедись, что не запускаешь старый профиль или профиль с неподходящими модами.</p></div>
+<div class="step"><span class="step-index">3</span><p>Создай временную новую установку с той же версией Minecraft, но без модов и дополнительных аргументов. Если она запускается, проблема, скорее всего, в старом профиле или его настройках.</p></div>
+<div class="step"><span class="step-index">4</span><p>Если лаунчер сам не открывается, проверь наличие обновлений системы и лаунчера. Для версии из Microsoft Store проверь обновления в библиотеке Store.</p></div>
+</div>
+<p>Не удаляй старый профиль и его файлы сразу: сначала проверь чистую установку. Если она работает, переноси настройки обратно постепенно.</p>
+<div class="note"><span class="callout-title">Официальная инструкция</span><p><a href="https://help.minecraft.net/hc/en-us/articles/23431114561037-Troubleshooting-Launching-Minecraft-from-the-Minecraft-Launcher" rel="noopener noreferrer" target="_blank">Minecraft Help: создание новой установки для диагностики проблем запуска ↗</a></p></div>
+</section>
+<section class="guide-section" id="ru-install"><span class="section-number">РАЗДЕЛ 03</span><h2>Ошибки загрузки и установки</h2>
+<p>Ошибки загрузки файлов, зависшая установка или сообщение о невозможности обновить игру могут быть связаны с соединением, свободным местом, лаунчером или доступом к папке игры.</p>
+<ul>
+<li><strong>Проверь свободное место.</strong> Убедись, что на диске с игрой и в системном разделе есть место для временных файлов и обновлений.</li>
+<li><strong>Перезапусти загрузку.</strong> Закрой лаунчер обычным способом, перезагрузи компьютер и попробуй снова.</li>
+<li><strong>Проверь сеть.</strong> Отключи нестабильный VPN/Proxy, если используешь его, и проверь, открываются ли официальные сайты Minecraft.</li>
+<li><strong>Проверь папку игры.</strong> Убедись, что у твоей учётной записи есть право записывать файлы в выбранную папку и что её не блокирует другая программа.</li>
+<li><strong>Обнови лаунчер.</strong> Если используешь Microsoft Store, проверь обновления в разделе «Библиотека». Не скачивай неизвестные DLL или заменённые игровые файлы с форумов.</li>
+</ul>
+<div class="warning"><span class="callout-title">Не отключай защиту Windows целиком</span><p>Не добавляй неизвестные файлы в исключения антивируса и не отключай защиту ради запуска игры. Если защита показывает конкретное предупреждение, проверь источник файла и его подлинность.</p></div>
+</section>
+<section class="guide-section" id="ru-java"><span class="section-number">РАЗДЕЛ 04</span><h2>Проблемы Java и Runtime</h2>
+<p>Minecraft Java Edition запускается на Java, но нужная версия Runtime зависит от версии игры и способа запуска. Официальный лаунчер обычно управляет подходящей средой самостоятельно. Ошибка может появиться, если выбран неподходящий или несуществующий путь к Java.</p>
+<h3>Что проверить</h3>
+<ol>
+<li>В настройках установки открой <strong>Дополнительные параметры (More Options)</strong> и посмотри поле Java executable, если оно доступно.</li>
+<li>Если путь задан вручную и файл по этому адресу удалён или перемещён, верни автоматический вариант лаунчера либо укажи корректный Runtime, совместимый с этой версией Minecraft.</li>
+<li>Если используешь сторонний лаунчер, проверь его документацию: он может управлять Java отдельно от официального лаунчера.</li>
+<li>Не устанавливай случайную «самую новую Java» в надежде исправить любую ошибку. Сначала выясни, какая версия нужна конкретной версии игры или мод-сборке.</li>
+</ol>
+<div class="note"><span class="callout-title">Важно</span><p>Установка другой Java не исправит автоматически ошибки модов, драйверов, повреждённого мира или сетевого подключения. Сначала ориентируйся на текст ошибки и журнал запуска.</p></div>
+</section>
+<section class="guide-section" id="ru-mods"><span class="section-number">РАЗДЕЛ 05</span><h2>Вылеты из-за модов и загрузчиков</h2>
+<p>После добавления мода, обновления сборки или смены загрузчика игра может перестать запускаться. Самые частые причины — несовпадение версии Minecraft, неправильный загрузчик, отсутствующая зависимость или конфликт модификаций.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Запомни, что изменилось последним: новый мод, обновление, изменение конфигурации или переход на другую версию игры.</p></div>
+<div class="step"><span class="step-index">2</span><p>Проверь, что каждый мод предназначен для точной версии Minecraft и нужного загрузчика: Forge, Fabric или NeoForge. Эти загрузчики не взаимозаменяемы.</p></div>
+<div class="step"><span class="step-index">3</span><p>Открой страницу мода и проверь обязательные зависимости. Например, некоторым модам Fabric требуется Fabric API.</p></div>
+<div class="step"><span class="step-index">4</span><p>Временно убери последний добавленный мод из папки <code>mods</code> в отдельную резервную папку и проверь запуск. Не удаляй файлы навсегда.</p></div>
+<div class="step"><span class="step-index">5</span><p>Если проблема остаётся, тестируй небольшими группами или по одному моду. Не меняй одновременно загрузчик, Java и десятки модов.</p></div>
+</div>
+<div class="warning"><span class="callout-title">Не открывай единственную копию мира в изменённой сборке</span><p>Некоторые моды добавляют блоки и предметы. Удаление таких модов после сохранения мира может привести к исчезновению содержимого или повреждению прогресса. Всегда сначала делай копию мира.</p></div>
+<p>Подробная инструкция по установке модов и проверке совместимости находится в отдельном гайде <strong>Minecraft Guides — Mods</strong>.</p>
+</section>
+<section class="guide-section" id="ru-memory"><span class="section-number">РАЗДЕЛ 06</span><h2>Ошибки памяти и зависания</h2>
+<p>Сообщения вроде <strong>Out of memory</strong> могут означать, что игре не хватает доступной памяти. Но увеличение выделенной RAM не всегда помогает: слишком большое значение тоже может ухудшить стабильность, если системе и другим программам остаётся мало памяти.</p>
+<h3>Безопасная проверка</h3>
+<ul>
+<li>Посмотри, сколько оперативной памяти установлено на компьютере и сколько свободно во время игры.</li>
+<li>Закрой тяжёлые программы, которые не нужны во время игры.</li>
+<li>В Minecraft Launcher открой установку → <strong>More Options</strong> и проверь JVM Arguments. Параметр <code>-Xmx</code> задаёт верхнюю границу выделяемой памяти.</li>
+<li>Перед изменением скопируй исходные аргументы в отдельный текстовый файл, чтобы можно было вернуть их обратно.</li>
+<li>Не назначай игре всю оперативную память. Оставь запас для Windows, лаунчера и фоновых программ.</li>
+</ul>
+<p>Если Minecraft зависает при создании мира, но не показывает ошибку памяти, причина может быть в моде, генерации мира, драйвере или другом компоненте. Не меняй объём RAM наугад.</p>
+<div class="note"><span class="callout-title">Если ошибка появилась после изменения -Xmx</span><p>Верни сохранённые JVM Arguments или стандартные значения профиля и проверь запуск ещё раз. Официальная инструкция по изменению выделенной памяти: <a href="https://help.minecraft.net/hc/en-us/articles/39083573916941" rel="noopener noreferrer" target="_blank">Minecraft Help — Memory Allocation ↗</a>.</p></div>
+</section>
+<section class="guide-section" id="ru-graphics"><span class="section-number">РАЗДЕЛ 07</span><h2>Графика, OpenGL и драйверы</h2>
+<p>Ошибки графической системы могут проявляться чёрным экраном, закрытием игры при запуске или сообщением о неподдерживаемом OpenGL. На Windows стоит проверить драйвер видеокарты и обновления системы.</p>
+<ul>
+<li>Определи модель видеокарты в диспетчере устройств или системных настройках.</li>
+<li>Скачивай драйвер только с официального сайта NVIDIA, AMD или Intel либо через штатный механизм обновления производителя компьютера.</li>
+<li>После установки драйвера перезагрузи компьютер.</li>
+<li>Если проблема появилась сразу после обновления драйвера, проверь доступность предыдущей стабильной версии через официальный источник производителя.</li>
+<li>Временно отключи шейдеры и графические моды, чтобы проверить запуск на стандартной конфигурации.</li>
+</ul>
+<div class="warning"><span class="callout-title">Не скачивай отдельные DLL с неизвестных сайтов</span><p>Файлы вроде opengl32.dll из случайных архивов могут быть поддельными или вредоносными. OpenGL-драйвер должен устанавливаться вместе с официальным драйвером видеокарты.</p></div>
+<p><a href="https://help.minecraft.net/hc/en-us/articles/4409137348877" rel="noopener noreferrer" target="_blank">Официальная инструкция Minecraft по проблемам видео и графики ↗</a></p>
+</section>
+<section class="guide-section" id="ru-logs"><span class="section-number">РАЗДЕЛ 08</span><h2>Где найти логи и crash-report</h2>
+<p>Журналы часто дают больше информации, чем короткое сообщение «Игра вылетела». Для обычного клиента Minecraft стандартная папка игры в Windows обычно находится в <code>%appdata%\.minecraft</code>.</p>
+<div class="setting-list">
+<div class="setting-item"><strong><code>logs\latest.log</code></strong><span>Последний журнал запуска и работы игры. Полезен, даже если crash-report не создался.</span></div>
+<div class="setting-item"><strong><code>crash-reports</code></strong><span>Папка с текстовыми отчётами о сбоях. Открой самый свежий файл, соответствующий времени вылета.</span></div>
+<div class="setting-item"><strong><code>hs_err_pidXXXXX.log</code></strong><span>Отчёт о критической ошибке самой Java Virtual Machine, если такой файл был создан.</span></div>
+</div>
+<h3>Как открыть папку игры в Windows</h3>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Нажми <strong>Win + R</strong>, введи <code>%appdata%\.minecraft</code> и нажми Enter.</p></div>
+<div class="step"><span class="step-index">2</span><p>Открой папку <code>logs</code> и найди <code>latest.log</code>. Если есть папка <code>crash-reports</code>, проверь самый новый отчёт.</p></div>
+<div class="step"><span class="step-index">3</span><p>Если используешь отдельную папку игры или сторонний лаунчер, логи могут находиться в каталоге конкретного профиля. Открой папку установки через настройки лаунчера.</p></div>
+</div>
+<p>На macOS стандартный каталог обычно расположен в <code>~/Library/Application Support/minecraft</code>, а на Linux — в <code>~/.minecraft</code>.</p>
+<p>Для передачи лога специалисту или автору мода можно использовать текстовый сервис, например <a href="https://mclo.gs/" rel="noopener noreferrer" target="_blank">mclo.gs ↗</a>. Перед публикацией проверь лог на личные данные: имя пользователя, пути к папкам и другую информацию, которую не хочешь раскрывать.</p>
+<div class="note"><span class="callout-title">Crash-report и latest.log — разные файлы</span><p>Crash-report содержит сведения о конкретном падении, а latest.log — последовательность сообщений во время работы игры. Если crash-report отсутствует, latest.log всё равно может помочь.</p></div>
+</section>
+<section class="guide-section" id="ru-codes"><span class="section-number">РАЗДЕЛ 09</span><h2>Как понимать коды ошибок</h2>
+<p>Код выхода — это не всегда диагноз. Например, <strong>Exit Code 1</strong> сообщает о неудачном завершении процесса, но сам по себе не объясняет причину. Ищи подробности в логе и crash-report.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Exit Code 1</strong><span>Общий признак сбоя. Проверь последние строки latest.log, загрузчик, Java, моды и аргументы запуска.</span></div>
+<div class="setting-item"><strong>Out of memory</strong><span>Проверь доступную RAM, аргумент -Xmx, объём мод-сборки и фоновые приложения. Не выделяй игре всю память компьютера.</span></div>
+<div class="setting-item"><strong>OpenGL / Pixel format</strong><span>Проверь драйвер видеокарты, поддержку графики и отключи для теста шейдеры или графические моды.</span></div>
+<div class="setting-item"><strong>Missing dependency / Mod resolution</strong><span>Найди название отсутствующей библиотеки или несовместимого мода в сообщении и установи подходящую версию с официальной страницы автора.</span></div>
+<div class="setting-item"><strong>Authentication / Session errors</strong><span>Проверь состояние входа в лаунчере, повтори авторизацию и убедись, что используешь нужную учётную запись.</span></div>
+</div>
+<p>Одна и та же надпись может встречаться при разных причинах. Не устанавливай случайные «фиксы Exit Code 1» и не запускай неизвестные BAT-файлы из видео или комментариев.</p>
+</section>
+<section class="guide-section" id="ru-worlds"><span class="section-number">РАЗДЕЛ 10</span><h2>Ошибки при загрузке мира</h2>
+<p>Если игра вылетает при открытии конкретного мира, сначала защити сохранение. Не экспериментируй с единственной копией важного мира.</p>
+<ol>
+<li>Закрой Minecraft и скопируй папку нужного мира из <code>saves</code> в другое безопасное место.</li>
+<li>Создай новый тестовый мир на той же версии и проверь, запускается ли он.</li>
+<li>Если новый мир работает, попробуй открыть копию проблемного мира без шейдеров и модов, которые не обязательны для его содержимого. Не удаляй моды, добавляющие блоки и предметы, из оригинала.</li>
+<li>Проверь, не менялась ли версия Minecraft или сборка между последним успешным запуском и появлением ошибки.</li>
+<li>Если проблема сохраняется, приложи crash-report и latest.log к обращению за помощью.</li>
+</ol>
+<div class="warning"><span class="callout-title">Не понижай версию мира без резервной копии</span><p>Открытие мира в более старой версии может привести к несовместимости данных. Сначала сделай копию и не перезаписывай единственный оригинал.</p></div>
+</section>
+<section class="guide-section" id="ru-network"><span class="section-number">РАЗДЕЛ 11</span><h2>Проблемы входа и подключения</h2>
+<p>Если одиночная игра работает, а на сервер войти не получается, проблема может быть не в установке Minecraft. Сначала внимательно прочитай сообщение на экране.</p>
+<ul>
+<li><strong>Incompatible version</strong> — проверь, совпадает ли версия игры с требуемой сервером.</li>
+<li><strong>Failed to verify username / Authentication servers</strong> — проверь вход в официальный лаунчер и повтори авторизацию позже, если сервис временно недоступен.</li>
+<li><strong>Connection timed out</strong> — проверь адрес сервера, подключение к интернету и доступность сервера. При необходимости попробуй подключиться позже.</li>
+<li><strong>Disconnected / Internal Exception</strong> — запиши полное сообщение, проверь моды и версию клиента. Если проблема только на одном сервере, уточни у его администрации.</li>
+</ul>
+<p>Не публикуй пароль, код подтверждения или токены сессии. Для проблем с пингом и потерей пакетов используй отдельный гайд по Ping, а сетевые настройки сервера проверяй вместе с его администратором.</p>
+</section>
+<section class="guide-section" id="ru-faq"><span class="section-number">РАЗДЕЛ 12</span><h2>Частые вопросы</h2>
+<h3>Что делать, если Minecraft просто закрывается без сообщения?</h3><p>Открой <code>logs\latest.log</code> и папку <code>crash-reports</code>. Crash-report может не создаться при некоторых сбоях JVM или внешних компонентов, поэтому проверяй оба источника.</p>
+<h3>Нужно ли переустанавливать Minecraft при каждой ошибке?</h3><p>Нет. Сначала проверь отдельную чистую установку, профиль, моды и журналы. Полная переустановка редко является первым необходимым шагом и не всегда удаляет причину проблемы.</p>
+<h3>Можно ли отправить кому-то crash-report?</h3><p>Да, если хочешь получить техническую помощь. Перед публикацией проверь содержимое на личные данные и не отправляй пароли, токены или коды доступа.</p>
+<h3>Почему игра запускается без модов, но вылетает с ними?</h3><p>Вероятны конфликт модов, неправильная версия загрузчика или отсутствующая зависимость. Проверяй состав сборки постепенно и смотри лог последнего запуска.</p>
+<h3>Поможет ли увеличение выделенной RAM?</h3><p>Только если причина действительно связана с нехваткой памяти. При проблемах с драйвером, Java, модами или повреждённым миром увеличение RAM не устранит источник ошибки.</p>
+</section>
+<section class="guide-section" id="ru-check"><span class="section-number">РАЗДЕЛ 13</span><h2>Итоговый чек-лист</h2>
+<p>Пройди пункты по порядку и отмечай, что уже проверено:</p>
+<div class="setting-list">
+<div class="setting-item"><strong>✓ Зафиксировал точный симптом</strong><span>Понимаю, на каком этапе появляется ошибка и что было изменено перед её появлением.</span></div>
+<div class="setting-item"><strong>✓ Сохранил миры и настройки</strong><span>Сделал резервную копию важных миров и исходных JVM Arguments.</span></div>
+<div class="setting-item"><strong>✓ Проверил чистый профиль</strong><span>Попробовал запустить новую установку без модов и дополнительных параметров.</span></div>
+<div class="setting-item"><strong>✓ Проверил Java, RAM и драйверы</strong><span>Не устанавливал случайные runtime или DLL и не назначал игре всю память.</span></div>
+<div class="setting-item"><strong>✓ Открыл latest.log и crash-report</strong><span>Нашёл файлы за время сбоя и проверил последние сообщения.</span></div>
+<div class="setting-item"><strong>✓ Менял настройки по одному</strong><span>После каждого шага повторял запуск, чтобы определить результат.</span></div>
+</div>
+<div class="note"><span class="callout-title">Если проблема не решилась</span><p>Подготовь точную версию Minecraft, название загрузчика, список модов, шаги воспроизведения ошибки и свежий лог. С такой информацией другим людям будет намного проще помочь.</p></div>
+</section></div>
+<div hidden="" id="en-content" lang="en"><div class="eyebrow">Minecraft Java Edition · Errors and Troubleshooting</div>
+<h1>How to Fix Minecraft Java Errors</h1>
+<p class="lead">A practical guide to finding and fixing common Minecraft Java Edition problems. Learn what to check, where to find game logs, and how to identify crashes without deleting your worlds or reinstalling everything.</p>
+<div class="meta-row"><span><i class="dot"></i>For Minecraft Java Edition</span><span><i class="dot"></i>Step-by-step troubleshooting</span><span><i class="dot"></i>Windows and other OSes</span></div>
+<div class="intro-card"><div><h2>What you'll learn</h2><p>How to check the launcher, installation, Java runtime, memory, graphics drivers and mods, and how to find crash reports and latest.log for troubleshooting.</p></div><div><h2>What you'll need</h2><p>Access to your game folder, a few minutes for testing, and a backup of important worlds. Most checks do not require third-party software.</p></div></div>
+<nav aria-label="Guide contents" class="toc-card"><div class="toc-heading">Contents</div><ol class="toc-list">
+<li><a href="#en-error-basics">1. Start troubleshooting</a></li>
+<li><a href="#en-launcher">2. Launcher won't open or start the game</a></li>
+<li><a href="#en-install">3. Download and installation errors</a></li>
+<li><a href="#en-java">4. Java and Runtime problems</a></li>
+<li><a href="#en-mods">5. Crashes caused by mods and loaders</a></li>
+<li><a href="#en-memory">6. Memory errors and freezes</a></li>
+<li><a href="#en-graphics">7. Graphics, OpenGL and drivers</a></li>
+<li><a href="#en-logs">8. Finding logs and crash reports</a></li>
+<li><a href="#en-codes">9. Understanding error codes</a></li>
+<li><a href="#en-worlds">10. Problems loading a world</a></li>
+<li><a href="#en-network">11. Login and connection problems</a></li>
+<li><a href="#en-faq">12. Frequently asked questions</a></li>
+<li><a href="#en-check">13. Final checklist</a></li>
+</ol></nav>
+<section class="guide-section" id="en-error-basics"><span class="section-number">SECTION 01</span><h2>Start troubleshooting</h2>
+<p>Do not start by deleting your .minecraft folder or reinstalling Windows. First identify what happens: the launcher will not open, the game closes before the main menu, it crashes when loading a world, or only disconnects from a server.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Launcher will not open</strong><span>Check launcher updates, Microsoft Store/Xbox app (if applicable), account sign-in, and any launcher-specific error message.</span></div>
+<div class="setting-item"><strong>Game will not start</strong><span>Check the selected installation, Minecraft version, launch arguments, Java Runtime and installed mods.</span></div>
+<div class="setting-item"><strong>Game crashes after launch</strong><span>Note when it crashes and open latest.log or the newest file in crash-reports. Do not diagnose it from the exit code alone.</span></div>
+<div class="setting-item"><strong>Only one world has a problem</strong><span>Back up that world and test a new one. This helps distinguish a world-specific issue from a general game problem.</span></div>
+<div class="setting-item"><strong>Only multiplayer is affected</strong><span>Check the disconnect message, server availability and client version. Ping issues and server-side problems are separate checks.</span></div>
+</div>
+<div class="note"><span class="callout-title">The key rule</span><p>Change one setting at a time and test again. This makes it easier to see which action helped or caused a new issue. Copy your <code>saves</code> folder before making major changes.</p></div>
+</section>
+<section class="guide-section" id="en-launcher"><span class="section-number">SECTION 02</span><h2>Launcher won't open or start the game</h2>
+<p>If Minecraft Launcher opens but nothing happens after clicking Play, or the game window closes immediately, check the selected installation first.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Close the game and launcher completely. Check Task Manager for a stuck Minecraft or Launcher process, then open the launcher again.</p></div>
+<div class="step"><span class="step-index">2</span><p>Open <strong>Installations</strong> and check the selected version. Make sure you are not launching an old profile or one with incompatible mods.</p></div>
+<div class="step"><span class="step-index">3</span><p>Create a temporary new installation with the same Minecraft version but without mods or additional launch arguments. If it works, the issue is likely in the old profile or its settings.</p></div>
+<div class="step"><span class="step-index">4</span><p>If the launcher itself will not open, check operating system and launcher updates. For the Microsoft Store version, check the Library for updates.</p></div>
+</div>
+<p>Do not immediately delete the old profile and its files. Test a clean installation first, then move settings back gradually if it works.</p>
+<div class="note"><span class="callout-title">Official instructions</span><p><a href="https://help.minecraft.net/hc/en-us/articles/23431114561037-Troubleshooting-Launching-Minecraft-from-the-Minecraft-Launcher" rel="noopener noreferrer" target="_blank">Minecraft Help: create a new installation to troubleshoot launch issues ↗</a></p></div>
+</section>
+<section class="guide-section" id="en-install"><span class="section-number">SECTION 03</span><h2>Download and installation errors</h2>
+<p>Download failures, a stuck installation or an update error can be related to your connection, available disk space, the launcher or permissions for the game folder.</p>
+<ul>
+<li><strong>Check free disk space.</strong> Make sure the game drive and system drive have room for temporary files and updates.</li>
+<li><strong>Restart the download.</strong> Close the launcher normally, restart the computer and try again.</li>
+<li><strong>Check your connection.</strong> Temporarily disconnect an unstable VPN/Proxy if you use one and check whether official Minecraft websites load.</li>
+<li><strong>Check the game folder.</strong> Make sure your account can write to the selected folder and another application is not blocking it.</li>
+<li><strong>Update the launcher.</strong> For the Microsoft Store version, check the Library for updates. Do not download unknown DLLs or replacement game files from forums.</li>
+</ul>
+<div class="warning"><span class="callout-title">Do not disable Windows security completely</span><p>Do not add unknown files to antivirus exclusions or turn off protection just to launch the game. If security software shows a warning, verify the file source and authenticity first.</p></div>
+</section>
+<section class="guide-section" id="en-java"><span class="section-number">SECTION 04</span><h2>Java and Runtime problems</h2>
+<p>Minecraft Java Edition runs on Java, but the required Runtime depends on the game version and how you launch it. The official launcher generally manages a suitable runtime automatically. An error may appear if a custom Java path is incorrect or points to a missing file.</p>
+<h3>What to check</h3>
+<ol>
+<li>Open the installation settings and expand <strong>More Options</strong>. Check the Java executable field if it is available.</li>
+<li>If a custom path is set and the file has been moved or removed, switch back to the launcher's automatic runtime or select a compatible runtime for that Minecraft version.</li>
+<li>If you use a third-party launcher, check its documentation: it may manage Java separately from the official launcher.</li>
+<li>Do not install a random “latest Java” release expecting it to fix every error. First find out which version is required by the game or modpack.</li>
+</ol>
+<div class="note"><span class="callout-title">Important</span><p>Installing a different Java version will not automatically fix mod, graphics driver, corrupted world or network issues. Follow the error message and launch log first.</p></div>
+</section>
+<section class="guide-section" id="en-mods"><span class="section-number">SECTION 05</span><h2>Crashes caused by mods and loaders</h2>
+<p>After adding a mod, updating a modpack or changing loaders, the game may stop launching. Common causes include a mismatched Minecraft version, the wrong mod loader, a missing dependency or a mod conflict.</p>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Remember what changed last: a new mod, an update, a configuration change or a game version switch.</p></div>
+<div class="step"><span class="step-index">2</span><p>Check that every mod is made for the exact Minecraft version and loader: Forge, Fabric or NeoForge. These loaders are not interchangeable.</p></div>
+<div class="step"><span class="step-index">3</span><p>Read the mod's project page and check required dependencies. For example, some Fabric mods require Fabric API.</p></div>
+<div class="step"><span class="step-index">4</span><p>Temporarily move the last added mod out of the <code>mods</code> folder into a separate backup folder and test again. Do not permanently delete it.</p></div>
+<div class="step"><span class="step-index">5</span><p>If the issue remains, test small groups or one mod at a time. Do not change the loader, Java and dozens of mods simultaneously.</p></div>
+</div>
+<div class="warning"><span class="callout-title">Do not open your only world copy with a changed modpack</span><p>Some mods add blocks and items. Removing these mods after saving a world may remove content or damage progress. Always make a copy of the world first.</p></div>
+<p>For more detail, see the separate <strong>Minecraft Guides — Mods</strong> guide on installing mods and checking compatibility.</p>
+</section>
+<section class="guide-section" id="en-memory"><span class="section-number">SECTION 06</span><h2>Memory errors and freezes</h2>
+<p>Messages such as <strong>Out of memory</strong> may mean that the game does not have enough available memory. However, increasing allocated RAM does not always help: assigning too much can also reduce stability if Windows and other applications are left with too little memory.</p>
+<h3>Safe checks</h3>
+<ul>
+<li>Check how much RAM is installed and how much is free while the game is running.</li>
+<li>Close heavy applications that are not needed while playing.</li>
+<li>In Minecraft Launcher, open the installation → <strong>More Options</strong> and inspect JVM Arguments. The <code>-Xmx</code> parameter sets the maximum memory allocation.</li>
+<li>Before changing it, copy the original arguments into a text file so you can restore them.</li>
+<li>Do not assign all system memory to Minecraft. Leave room for Windows, the launcher and background applications.</li>
+</ul>
+<p>If Minecraft freezes while creating a world but does not show a memory error, the cause may be a mod, world generation, a driver or another component. Do not change RAM allocation blindly.</p>
+<div class="note"><span class="callout-title">If the error started after changing -Xmx</span><p>Restore your saved JVM Arguments or the profile defaults and test again. Official instructions for changing memory allocation: <a href="https://help.minecraft.net/hc/en-us/articles/39083573916941" rel="noopener noreferrer" target="_blank">Minecraft Help — Memory Allocation ↗</a>.</p></div>
+</section>
+<section class="guide-section" id="en-graphics"><span class="section-number">SECTION 07</span><h2>Graphics, OpenGL and drivers</h2>
+<p>Graphics-related errors may appear as a black screen, a crash during startup or a message about unsupported OpenGL. On Windows, check the graphics driver and system updates.</p>
+<ul>
+<li>Identify your graphics card in Device Manager or system settings.</li>
+<li>Download drivers only from the official NVIDIA, AMD or Intel website, or through the computer manufacturer's update utility.</li>
+<li>Restart your computer after installing the driver.</li>
+<li>If the issue started immediately after a driver update, check whether the manufacturer provides a previous stable version.</li>
+<li>Temporarily disable shaders and graphics mods to test the game with a standard configuration.</li>
+</ul>
+<div class="warning"><span class="callout-title">Do not download separate DLLs from unknown websites</span><p>Files such as opengl32.dll from random archives may be fake or malicious. The OpenGL driver should be installed with your graphics card's official driver package.</p></div>
+<p><a href="https://help.minecraft.net/hc/en-us/articles/4409137348877" rel="noopener noreferrer" target="_blank">Official Minecraft guide to video and graphics issues ↗</a></p>
+</section>
+<section class="guide-section" id="en-logs"><span class="section-number">SECTION 08</span><h2>Finding logs and crash reports</h2>
+<p>Logs often provide more information than a short “Game crashed” message. For a standard Minecraft client, the default game folder on Windows is usually <code>%appdata%\.minecraft</code>.</p>
+<div class="setting-list">
+<div class="setting-item"><strong><code>logs\latest.log</code></strong><span>The latest record of the game's launch and activity. It is useful even when no crash report was created.</span></div>
+<div class="setting-item"><strong><code>crash-reports</code></strong><span>The folder containing text crash reports. Open the newest file matching the time of the crash.</span></div>
+<div class="setting-item"><strong><code>hs_err_pidXXXXX.log</code></strong><span>A report about a critical Java Virtual Machine error, if one was created.</span></div>
+</div>
+<h3>Open the game folder on Windows</h3>
+<div class="steps">
+<div class="step"><span class="step-index">1</span><p>Press <strong>Win + R</strong>, enter <code>%appdata%\.minecraft</code> and press Enter.</p></div>
+<div class="step"><span class="step-index">2</span><p>Open the <code>logs</code> folder and find <code>latest.log</code>. If a <code>crash-reports</code> folder exists, check its newest report.</p></div>
+<div class="step"><span class="step-index">3</span><p>If you use a separate game directory or third-party launcher, logs may be stored in that profile's folder. Open the installation directory through the launcher settings.</p></div>
+</div>
+<p>On macOS, the default folder is usually <code>~/Library/Application Support/minecraft</code>; on Linux, it is usually <code>~/.minecraft</code>.</p>
+<p>To share a log with a helper or mod author, you can use a text service such as <a href="https://mclo.gs/" rel="noopener noreferrer" target="_blank">mclo.gs ↗</a>. Before posting, check the log for personal information such as your username, local folder paths or other details you do not want to disclose.</p>
+<div class="note"><span class="callout-title">Crash report and latest.log are different files</span><p>A crash report contains details about a particular crash, while latest.log records messages from the game session. If no crash report exists, latest.log may still help.</p></div>
+</section>
+<section class="guide-section" id="en-codes"><span class="section-number">SECTION 09</span><h2>Understanding error codes</h2>
+<p>An exit code is not always a diagnosis. For example, <strong>Exit Code 1</strong> indicates that the process ended unsuccessfully, but does not explain the cause by itself. Look for details in the log and crash report.</p>
+<div class="setting-list">
+<div class="setting-item"><strong>Exit Code 1</strong><span>A general sign of failure. Check the last lines of latest.log, the loader, Java, mods and launch arguments.</span></div>
+<div class="setting-item"><strong>Out of memory</strong><span>Check available RAM, the -Xmx argument, modpack size and background applications. Do not allocate all system memory to the game.</span></div>
+<div class="setting-item"><strong>OpenGL / Pixel format</strong><span>Check the graphics driver and graphics support, and disable shaders or graphics mods for testing.</span></div>
+<div class="setting-item"><strong>Missing dependency / Mod resolution</strong><span>Find the missing library or incompatible mod named in the message and install a compatible version from the author's official project page.</span></div>
+<div class="setting-item"><strong>Authentication / Session errors</strong><span>Check your launcher sign-in, try authenticating again and make sure you are using the correct account.</span></div>
+</div>
+<p>The same message can have different causes. Do not install random “Exit Code 1 fixes” or run unknown BAT files from videos or comments.</p>
+</section>
+<section class="guide-section" id="en-worlds"><span class="section-number">SECTION 10</span><h2>Problems loading a world</h2>
+<p>If the game crashes when opening one specific world, protect the save first. Do not troubleshoot using the only copy of an important world.</p>
+<ol>
+<li>Close Minecraft and copy the world folder from <code>saves</code> to another safe location.</li>
+<li>Create a new test world on the same version and see whether it opens.</li>
+<li>If the new world works, try opening a copy of the affected world without shaders and non-essential mods. Do not remove mods that add blocks or items from the original save.</li>
+<li>Check whether the Minecraft version or modpack changed between the last successful launch and the error.</li>
+<li>If the problem remains, include the crash report and latest.log when asking for help.</li>
+</ol>
+<div class="warning"><span class="callout-title">Do not downgrade a world without a backup</span><p>Opening a world in an older game version may cause data incompatibility. Make a copy first and never overwrite your only original save.</p></div>
+</section>
+<section class="guide-section" id="en-network"><span class="section-number">SECTION 11</span><h2>Login and connection problems</h2>
+<p>If single-player works but you cannot join a server, the Minecraft installation may not be the problem. Read the full disconnect message first.</p>
+<ul>
+<li><strong>Incompatible version</strong> — check whether your game version matches the one required by the server.</li>
+<li><strong>Failed to verify username / Authentication servers</strong> — check that you are signed in to the official launcher and try again later if the service is temporarily unavailable.</li>
+<li><strong>Connection timed out</strong> — check the server address, internet connection and server availability. Try again later if needed.</li>
+<li><strong>Disconnected / Internal Exception</strong> — note the full message and check client mods and version. If it only happens on one server, ask its administrators.</li>
+</ul>
+<p>Never share your password, verification code or session tokens. For ping and packet-loss problems, use the separate Ping guide; server network settings should be checked with the server administrator.</p>
+</section>
+<section class="guide-section" id="en-faq"><span class="section-number">SECTION 12</span><h2>Frequently asked questions</h2>
+<h3>What if Minecraft simply closes without showing a message?</h3><p>Open <code>logs\latest.log</code> and the <code>crash-reports</code> folder. A crash report may not be created for some JVM or external component failures, so check both locations.</p>
+<h3>Should I reinstall Minecraft for every error?</h3><p>No. First check a separate clean installation, the profile, mods and logs. A full reinstall is rarely the first necessary step and may not remove the cause.</p>
+<h3>Can I send someone my crash report?</h3><p>Yes, when you need technical help. Check it for personal information before posting, and never share passwords, tokens or access codes.</p>
+<h3>Why does the game launch without mods but crash with them?</h3><p>A mod conflict, incorrect loader version or missing dependency is likely. Check the modpack gradually and read the latest launch log.</p>
+<h3>Will allocating more RAM help?</h3><p>Only if the issue is actually caused by insufficient memory. Increasing RAM will not fix a driver, Java, mod or corrupted-world problem.</p>
+</section>
+<section class="guide-section" id="en-check"><span class="section-number">SECTION 13</span><h2>Final checklist</h2>
+<p>Go through these items in order and check what you have already tested:</p>
+<div class="setting-list">
+<div class="setting-item"><strong>✓ Identified the exact symptom</strong><span>I know when the error occurs and what changed before it started.</span></div>
+<div class="setting-item"><strong>✓ Backed up worlds and settings</strong><span>I copied important worlds and saved the original JVM Arguments.</span></div>
+<div class="setting-item"><strong>✓ Tested a clean profile</strong><span>I tried a new installation without mods or extra launch parameters.</span></div>
+<div class="setting-item"><strong>✓ Checked Java, RAM and drivers</strong><span>I did not install random runtimes or DLLs or allocate all system memory to the game.</span></div>
+<div class="setting-item"><strong>✓ Opened latest.log and crash-report</strong><span>I found the files from the time of the crash and checked the last messages.</span></div>
+<div class="setting-item"><strong>✓ Changed one thing at a time</strong><span>I tested the game after each step to identify the result.</span></div>
+</div>
+<div class="note"><span class="callout-title">If the issue is still not fixed</span><p>Prepare your exact Minecraft version, mod loader, mod list, steps to reproduce the problem and a recent log. This information will make it much easier for others to help.</p></div>
+</section></div>
+</main>
+<footer class="site-footer">
+<span id="footer-ru">Minecraft Guides · Гайды по Minecraft Java Edition</span>
+<span hidden="" id="footer-en">Minecraft Guides · Minecraft Java Edition guides</span>
+</footer>
+<script>
+    const ruButton = document.getElementById('ru-button');
+    const enButton = document.getElementById('en-button');
+    const ruContent = document.getElementById('ru-content');
+    const enContent = document.getElementById('en-content');
+    const footerRu = document.getElementById('footer-ru');
+    const footerEn = document.getElementById('footer-en');
+
+    function setLanguage(language) {
+      const isRussian = language === 'ru';
+      ruContent.hidden = !isRussian;
+      enContent.hidden = isRussian;
+      footerRu.hidden = !isRussian;
+      footerEn.hidden = isRussian;
+      ruButton.setAttribute('aria-pressed', String(isRussian));
+      enButton.setAttribute('aria-pressed', String(!isRussian));
+      document.documentElement.lang = language;
+      document.title = isRussian
+        ? 'Как исправить ошибки Minecraft Java — Minecraft Guides'
+        : 'How to Fix Minecraft Java Errors — Minecraft Guides';
+      try {
+        localStorage.setItem('minecraft-guides-language', language);
+      } catch (error) {
+      }
+    }
+
+    ruButton.addEventListener('click', () => setLanguage('ru'));
+    enButton.addEventListener('click', () => setLanguage('en'));
+
+    try {
+      const savedLanguage = localStorage.getItem('minecraft-guides-language');
+      if (savedLanguage === 'en' || savedLanguage === 'ru') {
+        setLanguage(savedLanguage);
+      } else {
+        setLanguage('ru');
+      }
+    } catch (error) {
+      setLanguage('ru');
+    }
+  </script>
+</body>
+</html>
